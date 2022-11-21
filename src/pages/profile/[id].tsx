@@ -7,6 +7,7 @@ import { IUser, USER } from "apollo/queries/user";
 import { IPost, POSTS } from "apollo/queries/post";
 
 import { meVar } from "apollo/variables/user";
+import { postsVar } from "apollo/variables/post";
 
 import { socket } from "utils/socket";
 
@@ -19,7 +20,6 @@ import { Post } from "components/Post";
 import { CreatePost } from "components/pages/profile/CreatePost";
 
 import s from "styles/pages/profile.module.sass";
-import { postsVar } from "apollo/variables/post";
 
 export default function Profile() {
   const router = useRouter();
@@ -50,26 +50,27 @@ export default function Profile() {
 
   useEffect(() => {
     if (postsData?.posts) {
-      console.log("postsData?.posts", postsData?.posts);
       postsVar(postsData?.posts);
     }
   }, [postsLoading]);
 
-  const handleAddPost = useCallback((post: IPost) => {
-    console.log("posts", posts, postsData, postsData?.posts);
-    if (postsData?.posts) {
-      postsVar([post, ...postsData?.posts]);
-    } else {
-      postsVar([post]);
-    }
-  }, []);
+  const handleAddPost = useCallback(
+    (post: IPost) => {
+      if (posts) {
+        postsVar([post, ...posts]);
+      } else {
+        postsVar([post]);
+      }
+    },
+    [posts]
+  );
 
-  const handleRemovePost = (postId: string) => {
-    console.log("handleRemovePost", posts, postsData);
-
-    console.log(postsData?.posts.filter((p: IPost) => p.id !== postId));
-    postsVar(postsData?.posts.filter((p: IPost) => p.id !== postId));
-  };
+  const handleRemovePost = useCallback(
+    (postId: string) => {
+      postsVar(posts.filter((p: IPost) => p.id !== postId));
+    },
+    [posts]
+  );
 
   useEffect(() => {
     socket.on("createPost", (res) => {
@@ -83,7 +84,7 @@ export default function Profile() {
       socket.removeListener("createPost");
       socket.removeListener("removePost");
     };
-  }, []);
+  }, [posts]);
 
   if (loading) {
     return <>Loading...</>;
@@ -102,6 +103,7 @@ export default function Profile() {
           <Avatar width={100} height={100} className={s.profile__avatar} />
           <div className={s.profile__fullName}>
             {user?.first_name} {user?.last_name}
+            <div>{user?.is_online ? "online" : "offline"}</div>
           </div>
         </div>
         {!me && (

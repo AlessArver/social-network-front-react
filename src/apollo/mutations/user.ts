@@ -18,34 +18,8 @@ export const LOGIN = gql`
   }
 `;
 
-export const ME = gql`
-  query me {
-    me {
-      id
-      first_name
-      last_name
-      avatar
-      email
-      posts {
-        id
-        text
-      }
-    }
-  }
-`;
-
-export const USER = gql`
-  query user {
-    user {
-      id
-      first_name
-      last_name
-      avatar
-      email
-      posts {
-        id
-        text
-      }
-    }
+export const UPDATE_USER = gql`
+  mutation updateUser($updateUser: UpdateUserInput!) {
+    updateUser(updateUser: $updateUser)
   }
 `;

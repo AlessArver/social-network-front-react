@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
 
 import { IUser, USER } from "apollo/queries/user";
@@ -20,6 +20,8 @@ import { Post } from "components/Post";
 import { CreatePost } from "components/pages/profile/CreatePost";
 
 import s from "styles/pages/profile.module.sass";
+import { FRIENDS, FriendStatus, IFriend } from "apollo/queries/friend";
+import { AddFriend } from "components/pages/profile/AddFriend";
 
 export default function Profile() {
   const router = useRouter();
@@ -106,11 +108,8 @@ export default function Profile() {
             <div>{user?.is_online ? "online" : "offline"}</div>
           </div>
         </div>
-        {!me && (
-          <Button size={ButtonSize.sm}>
-            <MdAdd className={s.profile__addIcon} />
-            Add friend
-          </Button>
+        {!!user && !!me && me.id !== user.id && (
+          <AddFriend me={me} user={user} />
         )}
       </div>
       {!!me && me.id === id && (

@@ -7,6 +7,9 @@ export enum ButtonSize {
   sm = "sm",
   md = "md",
 }
+export enum ButtonType {
+  danger = "danger",
+}
 export interface IButton {
   children: ReactNode;
   fullWidth?: boolean;
@@ -14,6 +17,7 @@ export interface IButton {
   onClick?: () => void;
   htmlType?: "button" | "submit";
   disabled?: boolean;
+  type?: ButtonType;
   className?: string;
 }
 export const Button: FC<IButton> = ({
@@ -23,12 +27,23 @@ export const Button: FC<IButton> = ({
   onClick,
   htmlType = "button",
   disabled,
+  type,
   className,
 }) => {
   return (
     <button
       onClick={onClick}
-      className={clsx(s.button, s[`button_${size}`], fullWidth, className)}
+      className={clsx(
+        s.button,
+        s[`button_${size}`],
+        s[`button_${type}`],
+        {
+          [s.button_disabled]: disabled,
+          [s.button_fullWidth]: fullWidth,
+        },
+
+        className
+      )}
       type={htmlType}
       disabled={disabled}
     >

@@ -4,6 +4,9 @@ import { FC } from "react";
 import { Avatar } from "components/Avatar";
 
 import s from "./index.module.sass";
+import { useQuery } from "@apollo/client";
+import { FRIENDS } from "apollo/queries/friend";
+import { useRouter } from "next/router";
 
 export interface IPostFriend {
   id: string;
@@ -14,6 +17,14 @@ export interface IProfileFriends {
   items: IPostFriend[];
 }
 export const ProfileFriends: FC<IProfileFriends> = ({ owner_id, items }) => {
+  const router = useRouter();
+  const { id } = router.query;
+  const { data, loading = true } = useQuery(FRIENDS, {
+    variables: {
+      friendsInput: { to_id: id },
+    },
+  });
+
   return (
     <div className={s.profileFriends}>
       <Link

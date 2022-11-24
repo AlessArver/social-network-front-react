@@ -1,11 +1,13 @@
 .button
     padding: 10px 30px
     display: flex
+    justify-content: center
     align-items: center
     background: #fff
     border: 1px solid #000
     border-radius: 20px
     cursor: pointer
+    transition: all .3s
 
 .button_sm
     padding: 5px 15px
@@ -15,3 +17,15 @@
     font-weight: 500
     font-size: 16px
     line-height: 19px
+
+.button_disabled
+    cursor: unset
+    border-color: #D9D9D9
+
+.button_fullWidth
+    width: 100%
+
+.button_danger
+    border-color: red
+    color: red
+    opacity: .5

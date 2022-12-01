@@ -3,6 +3,7 @@ import { FC, FormEventHandler, ReactNode } from "react";
 import { Button } from "components/Button";
 
 import s from "./index.module.sass";
+import Link from "next/link";
 
 export enum AuthLayoutType {
   register = "register",
@@ -30,6 +31,12 @@ export const AuthLayout: FC<IAuthLayout> = ({
         <Button htmlType="submit" disabled={loading}>
           Enter
         </Button>
+        <Link
+          href={type === AuthLayoutType.register ? "/login" : "/register"}
+          className={s.authLayout__link}
+        >
+          {type === AuthLayoutType.register ? "login" : "register"}
+        </Link>
       </form>
     </div>
   );

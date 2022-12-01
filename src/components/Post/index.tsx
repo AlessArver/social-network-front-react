@@ -47,7 +47,7 @@ export const Post: FC<IPostProps> = ({
         </Link>
         <Dropdown
           childrenItems={[
-            { onClick: () => {}, text: "Edit" },
+            // { onClick: () => {}, text: "Edit" },
             { onClick: onRemove, text: "Remove" },
           ]}
           visible={showOptions.value}

@@ -15,7 +15,7 @@ export const Navlink: FC<INavlink> = ({
   activeClassName = "",
 }) => {
   const { pathname } = useRouter();
-  const isActive = pathname === href;
+  const isActive = pathname.includes(`${href}`);
 
   return (
     <Link

@@ -1,4 +1,8 @@
 import { FC, ReactNode } from "react";
+import Cookie from "js-cookie";
+import Router from "next/router";
+
+import { isAuthVar, meVar } from "apollo/variables/user";
 
 import { Navbar } from "components/app/Navbar";
 
@@ -23,7 +27,12 @@ export const MainLayout: FC<IMainLayout> = ({ children, asideChildren }) => {
       text: "settings",
     },
     {
-      onClick: () => {},
+      onClick: () => {
+        Cookie.remove("userToken");
+        meVar(null);
+        isAuthVar(false);
+        Router.push("/login");
+      },
       text: "exit",
     },
   ];
@@ -31,7 +40,7 @@ export const MainLayout: FC<IMainLayout> = ({ children, asideChildren }) => {
   return (
     <div className={s.mainLayout}>
       <div className={s.mainLayout__card}>
-        <Navbar items={NAV_ITEMS} />
+        <Navbar items={NAV_ITEMS} className={s.mainLayout__navbar} />
         <div className={s.mainLayout__children}>{children}</div>
         {!!asideChildren && (
           <div className={s.mainLayout__aside}>{asideChildren}</div>

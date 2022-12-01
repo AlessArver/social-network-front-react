@@ -1,9 +1,16 @@
 .mainLayout
-    padding: 40px 0
+    padding: 40px
     height: calc(100vh - 40px * 2)
     display: flex
     justify-content: center
     align-items: center
+
+    @media screen and (max-width: 768px)
+        padding: 40px 20px
+
+.mainLayout__navbar
+    @media screen and (max-width: 1200px)
+        display: none
 
 .mainLayout__card
     padding: 20px 40px
@@ -16,11 +23,17 @@
     border-radius: 40px
     border: 1px solid #000
 
+    @media screen and ( max-width:  768px)
+        padding: 20px
+
 .mainLayout__children
     margin-left: 60px
     max-width: 650px
     height: 100%
     width: 100%
+
+    @media screen and (max-width: 1200px)
+        margin-left: 0
 
 .mainLayout__aside
     margin-left: 20px

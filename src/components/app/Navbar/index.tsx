@@ -1,4 +1,5 @@
 import { FC } from "react";
+import clsx from "clsx";
 
 import { Navlink } from "components/Navlink";
 
@@ -6,15 +7,16 @@ import s from "./index.module.sass";
 
 export interface INavItem {
   url?: string;
-  onCloick?: () => void;
+  onClick?: () => void;
   text: string;
 }
 export interface INavbar {
   items: INavItem[];
+  className?: string;
 }
-export const Navbar: FC<INavbar> = ({ items }) => {
+export const Navbar: FC<INavbar> = ({ items, className }) => {
   return (
-    <div className={s.navbar}>
+    <div className={clsx(s.navbar, className)}>
       {items.map((i) =>
         i?.url ? (
           <Navlink
@@ -26,7 +28,7 @@ export const Navbar: FC<INavbar> = ({ items }) => {
             {i.text}
           </Navlink>
         ) : (
-          <div key={i.text} className={s.navbar__item}>
+          <div onClick={i.onClick} key={i.text} className={s.navbar__item}>
             {i.text}
           </div>
         )

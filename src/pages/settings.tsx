@@ -1,3 +1,5 @@
+import { MainLayout } from "layouts/MainLayout";
+
 export default function Register() {
-  return <div></div>;
+  return <MainLayout>settings</MainLayout>;
 }

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
-import { useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { useRouter } from "next/router";
 
 import { IUser, USER } from "apollo/queries/user";
@@ -14,19 +13,17 @@ import { socket } from "utils/socket";
 import { MainLayout } from "layouts/MainLayout";
 
 import { Avatar } from "components/Avatar";
-import { Button, ButtonSize } from "components/Button";
 import { ProfileFriends } from "components/pages/profile/ProfileFriends";
 import { Post } from "components/Post";
 import { CreatePost } from "components/pages/profile/CreatePost";
 
 import s from "styles/pages/profile.module.sass";
-import { FRIENDS, FriendStatus, IFriend } from "apollo/queries/friend";
 import { AddFriend } from "components/pages/profile/AddFriend";
 
 export default function Profile() {
   const router = useRouter();
   const { id } = router.query;
-  const me = meVar();
+  const me = useReactiveVar(meVar);
   const { data, loading = true } = useQuery(USER, { variables: { id } });
   const { data: postsData, loading: postsLoading } = useQuery(POSTS, {
     variables: { userId: id },
@@ -43,6 +40,9 @@ export default function Profile() {
     { id: "5455" },
     { id: "5432" },
   ]);
+  // const { innerWidth } = window;
+
+  // console.log({ innerWidth });
 
   useEffect(() => {
     if (data?.user) {
@@ -98,14 +98,18 @@ export default function Profile() {
 
   return (
     <MainLayout
-      asideChildren={<ProfileFriends items={friends} owner_id={"23443"} />}
+      asideChildren={
+        window.innerWidth >= 768 && (
+          <ProfileFriends items={friends} owner_id={"23443"} />
+        )
+      }
     >
       <div className={s.profile__header}>
         <div className={s.profile__headerColumn}>
           <Avatar width={100} height={100} className={s.profile__avatar} />
           <div className={s.profile__fullName}>
             {user?.first_name} {user?.last_name}
-            <div>{user?.is_online ? "online" : "offline"}</div>
+            {/* <div>{user?.is_online ? "online" : "offline"}</div> */}
           </div>
         </div>
         {!!user && !!me && me.id !== user.id && (

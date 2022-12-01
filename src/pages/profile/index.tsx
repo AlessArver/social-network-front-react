@@ -1,13 +1,22 @@
 import Router from "next/router";
+import { useEffect } from "react";
+import { useReactiveVar } from "@apollo/client";
 
-import { meVar } from "apollo/variables/user";
+import { meLoadingVar, meVar } from "apollo/variables/user";
 
 export default function ProfileMe() {
-  const me = meVar();
+  const me = useReactiveVar(meVar);
+  const meLoading = useReactiveVar(meLoadingVar);
 
-  if (me) {
-    Router.push(`/profile/${me.id}`);
-  }
+  useEffect(() => {
+    if (!meLoading) {
+      if (me) {
+        Router.push(`/profile/${me.id}`);
+      } else {
+        Router.push("/login");
+      }
+    }
+  }, [me, meLoading]);
 
-  return <div>Not found</div>;
+  return <div></div>;
 }

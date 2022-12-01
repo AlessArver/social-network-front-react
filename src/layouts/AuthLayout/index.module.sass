@@ -1,9 +1,13 @@
 .authLayout 
+    padding: 40px
     height: 100vh
     display: flex
     flex-direction: column#000
     justify-content: center
     align-items: center
+
+    @media screen and (max-width: 768px)
+        padding: 40px 20px
 
 .authLayout__form
     padding: 20px
@@ -33,3 +37,6 @@
 
     &:last-child
         margin-bottom: 0
+
+.authLayout__link
+    margin-top: 10px

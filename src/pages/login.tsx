@@ -1,9 +1,11 @@
+import { HTMLInputTypeAttribute, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
 import Router from "next/router";
 import Cookie from "js-cookie";
 
+import { isAuthVar } from "apollo/variables/user";
 import { LOGIN } from "apollo/mutations/user";
 
 import {
@@ -16,7 +18,6 @@ import { AuthLayout, AuthLayoutType } from "layouts/AuthLayout";
 import { Input } from "components/Input";
 
 import s from "layouts/AuthLayout/index.module.sass";
-import { HTMLInputTypeAttribute, useEffect } from "react";
 
 export enum LoginValues {
   email = "email",
@@ -37,7 +38,8 @@ export default function Login() {
   useEffect(() => {
     if (loginData?.login) {
       Cookie.set("userToken", loginData.login);
-      Router.push("/");
+      isAuthVar(true);
+      Router.push("/messages");
     }
   }, [loginData]);
 

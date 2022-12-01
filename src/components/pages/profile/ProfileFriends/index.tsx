@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FC } from "react";
+import clsx from "clsx";
 
 import { Avatar } from "components/Avatar";
 
@@ -15,8 +16,13 @@ export interface IPostFriend {
 export interface IProfileFriends {
   owner_id: string;
   items: IPostFriend[];
+  className?: string;
 }
-export const ProfileFriends: FC<IProfileFriends> = ({ owner_id, items }) => {
+export const ProfileFriends: FC<IProfileFriends> = ({
+  owner_id,
+  items,
+  className,
+}) => {
   const router = useRouter();
   const { id } = router.query;
   const { data, loading = true } = useQuery(FRIENDS, {
@@ -26,7 +32,7 @@ export const ProfileFriends: FC<IProfileFriends> = ({ owner_id, items }) => {
   });
 
   return (
-    <div className={s.profileFriends}>
+    <div className={clsx(s.profileFriends, className)}>
       <Link
         href={`/friends?id=${owner_id}`}
         className={s.profileFriends__title}

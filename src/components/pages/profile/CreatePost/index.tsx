@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 import { REQUIRED_FIELD_VALIDATION } from "utils/formValidation/validatinoFields";
-import { socket } from "utils/socket";
+// import { socket } from "utils/socket";
 
 import { IPost } from "apollo/queries/post";
 
@@ -31,10 +31,10 @@ export const CreatePost: FC<ICreatePost> = ({ userId, handleAddPost }) => {
     initialValues,
     validationSchema,
     onSubmit: (values, { resetForm }: any) => {
-      socket.emit("createPost", { ...values, userId }, (res: any) => {
-        resetForm();
-        handleAddPost(res);
-      });
+      // socket.emit("createPost", { ...values, userId }, (res: any) => {
+      //   resetForm();
+      //   handleAddPost(res);
+      // });
     },
   });
 

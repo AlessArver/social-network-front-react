@@ -33,10 +33,7 @@ export const ProfileFriends: FC<IProfileFriends> = ({
 
   return (
     <div className={clsx(s.profileFriends, className)}>
-      <Link
-        href={`/friends?id=${owner_id}`}
-        className={s.profileFriends__title}
-      >
+      <Link href={`/friends/${owner_id}`} className={s.profileFriends__title}>
         Friends
       </Link>
       <div className={s.profileFriends__items}>

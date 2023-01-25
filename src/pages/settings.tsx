@@ -1,5 +1,5 @@
 import { MainLayout } from "layouts/MainLayout";
 
-export default function Register() {
+export default function Settings() {
   return <MainLayout>settings</MainLayout>;
 }

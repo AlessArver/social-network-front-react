@@ -1,15 +1,23 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 
 import { FRIENDS, FriendStatus, IFriend } from "apollo/queries/friend";
 import { IUser } from "apollo/queries/user";
 
-import { socket } from "utils/socket";
-
 import { Button, ButtonSize, ButtonType } from "components/Button";
 
 import s from "./index.module.sass";
+import {
+  CREATE_FRIEND,
+  REMOVE_FRIEND,
+  UPDATE_FRIEND,
+} from "apollo/mutations/friend";
+import {
+  FRIEND_ADDED,
+  FRIEND_REMOVED,
+  FRIEND_UPDATED,
+} from "apollo/subscriptions/friend";
 
 export interface IAddFriend {
   me: IUser;
@@ -17,6 +25,12 @@ export interface IAddFriend {
 }
 export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
   const [_geMytFriends, { loading }] = useLazyQuery(FRIENDS);
+  const [_createFriendMutation] = useMutation(CREATE_FRIEND);
+  const [_updateFriendMutation] = useMutation(UPDATE_FRIEND);
+  const [_removeFriendMutation] = useMutation(REMOVE_FRIEND);
+  const { data: friendAdded } = useSubscription(FRIEND_ADDED);
+  const { data: friendUpdated } = useSubscription(FRIEND_UPDATED);
+  const { data: friendRemoved } = useSubscription(FRIEND_REMOVED);
   const [friend, setFriend] = useState<IFriend | null>(null);
   const [myFriend, setMyFriend] = useState<IFriend | null>(null);
 
@@ -59,101 +73,138 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      socket.on("createFriend", (res: IFriend) => {
-        if (res && me.id === res.to_id && res.from_id === user.id) {
-          setFriend(res);
+    // * НАДО СДЕЛАТЬ ТАК,ЧТОБ ПОСЛЕ ДОБАВЛЕНИЯ В ЧС, У ДРУГОГО ЮЗЕРА БЫЛ ТЕКС: ВЫ В ЧС
+
+    if (friendUpdated?.friendUpdated) {
+      if (me.id === friendUpdated?.friendUpdated?.to_id) {
+        if (user.id === friendUpdated?.friendUpdated?.from_id) {
+          setFriend(friendUpdated?.friendUpdated);
         }
-      });
-      socket.on("updateFriend", (res: IFriend) => {
-        // * НАДО СДЕЛАТЬ ТАК,ЧТОБ ПОСЛЕ ДОБАВЛЕНИЯ В ЧС, У ДРУГОГО ЮЗЕРА БЫЛ ТЕКС: ВЫ В ЧС
-        if (res) {
-          if (me.id === res.to_id && res.from_id === user.id) {
-            setFriend(res);
-          } else if (me.id === res.from_id && res.to_id === user.id) {
-            setMyFriend(res);
+      } else {
+        if (myFriend) {
+          if (friendUpdated?.friendUpdated?.status === FriendStatus.blocked) {
+            setMyFriend(null);
+          } else {
+            setMyFriend(friendUpdated?.friendUpdated);
           }
         }
-      });
-      socket.on("removeFriend", (res: IFriend) => {
-        if (myFriend?.status === FriendStatus.blocked) {
-          setFriend(null);
-        } else {
-          setFriend(null);
-          setMyFriend(null);
-        }
-      });
+      }
     }
-  }, [user]);
+  }, [friendUpdated]);
+
+  useEffect(() => console.log({ myFriend, friend }), [myFriend, friend]);
+
+  useEffect(() => {
+    if (friendAdded?.friendAdded) {
+      console.log("friendAdded", friendAdded?.friendAdded);
+      if (me.id === friendAdded.friendAdded.to_id) {
+        setFriend(friendAdded?.friendAdded);
+      } else {
+        if (myFriend) {
+          setMyFriend({ ...myFriend, status: FriendStatus.added });
+        }
+      }
+    }
+  }, [friendAdded]);
+
+  useEffect(() => {
+    if (friendRemoved?.friendRemoved) {
+      if (myFriend && friendRemoved?.friendRemoved?.id === myFriend.id) {
+        setMyFriend(null);
+      } else if (friend && friendRemoved?.friendRemoved?.id === friend.id) {
+        setFriend(null);
+      }
+    }
+  }, [friendRemoved]);
 
   const handleAddFriend = () => {
     if (!friend && !myFriend) {
-      // Create new column with status pending
-      socket.emit(
-        "createFriend",
-        {
-          from_id: me.id,
-          to_id: user.id,
-          status: FriendStatus.pending,
-          first_name: user.first_name,
-          last_name: user.last_name,
+      _createFriendMutation({
+        variables: {
+          createFriendInput: {
+            from_id: me.id,
+            to_id: user.id,
+            status: FriendStatus.pending,
+            first_name: user.first_name,
+            last_name: user.last_name,
+          },
         },
-        (res: IFriend) => {
-          setMyFriend(res);
-        }
-      );
+      }).then(({ data }) => {
+        setMyFriend(data?.createFriend);
+      });
     } else if (friend && !myFriend) {
-      // Update status to added in one culumn & create new column with status added
-      socket.emit(
-        "updateFriend",
-        {
-          id: friend.id,
-          status: FriendStatus.added,
+      _updateFriendMutation({
+        variables: {
+          updateFriendInput: {
+            id: friend.id,
+            status: FriendStatus.added,
+          },
         },
-        (res: IFriend) => {
-          setFriend({ ...friend, status: res.status });
-        }
+      }).then(({ data }) =>
+        setFriend({ ...friend, status: data?.updateFriend?.status })
       );
-      socket.emit(
-        "createFriend",
-        {
-          from_id: me.id,
-          to_id: user.id,
-          status: FriendStatus.added,
-          first_name: user.first_name,
-          last_name: user.last_name,
+
+      _createFriendMutation({
+        variables: {
+          createFriendInput: {
+            from_id: me.id,
+            to_id: user.id,
+            status: FriendStatus.added,
+            first_name: user.first_name,
+            last_name: user.last_name,
+          },
         },
-        (res: IFriend) => {
-          setMyFriend(res);
-        }
-      );
+      }).then(({ data }) => setMyFriend(data?.createFriend));
     }
   };
 
   const toggleBlock = () => {
     if (myFriend?.status === FriendStatus.blocked) {
       // Функция для разблокировки
-      socket.emit("removeFriend", myFriend.id, (res: IFriend) => {});
+      _removeFriendMutation({
+        variables: {
+          id: myFriend.id,
+        },
+      }).then(() => setMyFriend(null));
     } else if (friend && myFriend?.status === FriendStatus.added) {
       // Функция для блокировки
-      socket.emit(
-        "updateFriend",
-        {
-          id: myFriend.id,
-          status: FriendStatus.blocked,
+
+      _updateFriendMutation({
+        variables: {
+          updateFriendInput: {
+            id: myFriend.id,
+            status: FriendStatus.blocked,
+          },
         },
-        (res: IFriend) => {
-          setMyFriend({ ...myFriend, status: res.status });
-        }
-      );
-      socket.emit("removeFriend", friend.id, (res: IFriend) => {});
+      }).then(({ data }) => {
+        setMyFriend({ ...myFriend, status: data?.updateFriend?.status });
+      });
+
+      _removeFriendMutation({
+        variables: {
+          id: friend.id,
+        },
+      }).then(() => setFriend(null));
     }
   };
 
   const onRemove = () => {
     if (myFriend && friend) {
-      socket.emit("removeFriend", myFriend.id, (res: IFriend) => {});
-      socket.emit("removeFriend", friend.id, (res: IFriend) => {});
+      _removeFriendMutation({
+        variables: {
+          id: myFriend.id,
+        },
+      }).then(() => setMyFriend(null));
+      _updateFriendMutation({
+        variables: {
+          updateFriendInput: {
+            id: friend.id,
+            status: FriendStatus.pending,
+          },
+        },
+      }).then(({ data }) => {
+        setFriend({ ...friend, status: data?.updateFriend?.status });
+      });
     }
   };
 
@@ -165,17 +216,32 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
     );
   }
 
-  if (myFriend?.status === FriendStatus.blocked) {
-    return (
-      <Button
-        onClick={toggleBlock}
-        size={ButtonSize.sm}
-        className={s.addFriend__button}
-        type={ButtonType.danger}
-      >
-        Unblock
-      </Button>
-    );
+  if (friend) {
+    if (friend?.status === FriendStatus.blocked) {
+      return (
+        <Button
+          disabled
+          size={ButtonSize.sm}
+          className={s.addFriend__button}
+          type={ButtonType.danger}
+        >
+          U a blocked
+        </Button>
+      );
+    }
+  } else {
+    if (myFriend?.status === FriendStatus.blocked) {
+      return (
+        <Button
+          onClick={toggleBlock}
+          size={ButtonSize.sm}
+          className={s.addFriend__button}
+          type={ButtonType.danger}
+        >
+          Unblock
+        </Button>
+      );
+    }
   }
 
   if (

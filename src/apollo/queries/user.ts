@@ -22,6 +22,18 @@ export const USERS = gql`
   }
 `;
 
+export const USERS_BY_IDS = gql`
+  query usersByIds($ids: [String!]!) {
+    usersByIds(ids: $ids) {
+      id
+      first_name
+      last_name
+      avatar
+      email
+    }
+  }
+`;
+
 export const USER = gql`
   query user($id: String!) {
     user(id: $id) {

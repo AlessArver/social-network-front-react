@@ -8,7 +8,7 @@ import { IPost, POSTS } from "apollo/queries/post";
 import { meVar } from "apollo/variables/user";
 import { postsVar } from "apollo/variables/post";
 
-import { socket } from "utils/socket";
+// import { socket } from "utils/socket";
 
 import { MainLayout } from "layouts/MainLayout";
 
@@ -75,17 +75,16 @@ export default function Profile() {
   );
 
   useEffect(() => {
-    socket.on("createPost", (res) => {
-      handleAddPost(res);
-    });
-    socket.on("removePost", (res) => {
-      handleRemovePost(res.id);
-    });
-
-    return () => {
-      socket.removeListener("createPost");
-      socket.removeListener("removePost");
-    };
+    // socket.on("createPost", (res) => {
+    //   handleAddPost(res);
+    // });
+    // socket.on("removePost", (res) => {
+    //   handleRemovePost(res.id);
+    // });
+    // return () => {
+    //   socket.removeListener("createPost");
+    //   socket.removeListener("removePost");
+    // };
   }, [posts]);
 
   if (loading) {
@@ -100,7 +99,7 @@ export default function Profile() {
     <MainLayout
       asideChildren={
         window.innerWidth >= 768 && (
-          <ProfileFriends items={friends} owner_id={"23443"} />
+          <ProfileFriends items={friends} owner_id={`${id}`} />
         )
       }
     >

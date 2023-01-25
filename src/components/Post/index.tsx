@@ -10,7 +10,7 @@ import { Avatar } from "components/Avatar";
 import { Dropdown } from "components/Dropdown";
 
 import s from "./index.module.sass";
-import { socket } from "utils/socket";
+// import { socket } from "utils/socket";
 
 export interface IPostProps extends IPost {
   avatar?: string;
@@ -28,9 +28,9 @@ export const Post: FC<IPostProps> = ({
   const showOptions = useToggle();
 
   const onRemove = () => {
-    socket.emit("removePost", id, (res: IPost) => {
-      handleRemovePost(res.id);
-    });
+    // socket.emit("removePost", id, (res: IPost) => {
+    //   handleRemovePost(res.id);
+    // });
   };
 
   return (

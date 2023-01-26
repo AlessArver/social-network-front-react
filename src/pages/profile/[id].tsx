@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
-import { useQuery, useReactiveVar } from "@apollo/client";
+import {
+  useMutation,
+  useQuery,
+  useReactiveVar,
+  useSubscription,
+} from "@apollo/client";
 import { useRouter } from "next/router";
-
-import { IUser, USER } from "apollo/queries/user";
-import { IPost, POSTS } from "apollo/queries/post";
 
 import { meVar } from "apollo/variables/user";
 import { postsVar } from "apollo/variables/post";
 
-// import { socket } from "utils/socket";
+import { IUser, USER } from "apollo/queries/user";
+import { IPost, POSTS } from "apollo/queries/post";
+import { CREATE_POST, REMOVE_POST } from "apollo/mutations/post";
+import { POST_ADDED, POST_REMOVED } from "apollo/subscriptions/post";
 
 import { MainLayout } from "layouts/MainLayout";
 
@@ -16,15 +21,19 @@ import { Avatar } from "components/Avatar";
 import { ProfileFriends } from "components/pages/profile/ProfileFriends";
 import { Post } from "components/Post";
 import { CreatePost } from "components/pages/profile/CreatePost";
+import { AddFriend } from "components/pages/profile/AddFriend";
 
 import s from "styles/pages/profile.module.sass";
-import { AddFriend } from "components/pages/profile/AddFriend";
 
 export default function Profile() {
   const router = useRouter();
   const { id } = router.query;
   const me = useReactiveVar(meVar);
   const { data, loading = true } = useQuery(USER, { variables: { id } });
+  const [_createPostMutation] = useMutation(CREATE_POST);
+  const [_removePostMutation] = useMutation(REMOVE_POST);
+  const { data: postAdded } = useSubscription(POST_ADDED);
+  const { data: postRemoved } = useSubscription(POST_REMOVED);
   const { data: postsData, loading: postsLoading } = useQuery(POSTS, {
     variables: { userId: id },
   });
@@ -40,9 +49,6 @@ export default function Profile() {
     { id: "5455" },
     { id: "5432" },
   ]);
-  // const { innerWidth } = window;
-
-  // console.log({ innerWidth });
 
   useEffect(() => {
     if (data?.user) {
@@ -56,36 +62,47 @@ export default function Profile() {
     }
   }, [postsLoading]);
 
-  const handleAddPost = useCallback(
-    (post: IPost) => {
+  useEffect(() => {
+    if (postAdded?.postAdded) {
       if (posts) {
-        postsVar([post, ...posts]);
+        postsVar([postAdded?.postAdded, ...posts]);
       } else {
-        postsVar([post]);
+        postsVar([postAdded?.postAdded]);
       }
+    }
+  }, [postAdded]);
+
+  useEffect(() => {
+    if (postRemoved?.postRemoved) {
+      postsVar(posts.filter((p) => p.id !== postRemoved.postRemoved?.id));
+    }
+  }, [postRemoved]);
+
+  const handleAddPost = useCallback(
+    (text: string) => {
+      _createPostMutation({
+        variables: { createPostInput: { text, userId: id } },
+      }).then(({ data }) => {
+        if (posts) {
+          postsVar([data?.createPost, ...posts]);
+        } else {
+          postsVar([data?.createPost]);
+        }
+      });
     },
     [posts]
   );
 
   const handleRemovePost = useCallback(
     (postId: string) => {
-      postsVar(posts.filter((p: IPost) => p.id !== postId));
+      _removePostMutation({
+        variables: {
+          id: postId,
+        },
+      }).then(() => postsVar(posts.filter((p: IPost) => p.id !== postId)));
     },
     [posts]
   );
-
-  useEffect(() => {
-    // socket.on("createPost", (res) => {
-    //   handleAddPost(res);
-    // });
-    // socket.on("removePost", (res) => {
-    //   handleRemovePost(res.id);
-    // });
-    // return () => {
-    //   socket.removeListener("createPost");
-    //   socket.removeListener("removePost");
-    // };
-  }, [posts]);
 
   if (loading) {
     return <>Loading...</>;
@@ -115,9 +132,7 @@ export default function Profile() {
           <AddFriend me={me} user={user} />
         )}
       </div>
-      {!!me && me.id === id && (
-        <CreatePost userId={id} handleAddPost={handleAddPost} />
-      )}
+      {!!me && me.id === id && <CreatePost handleAddPost={handleAddPost} />}
       {!!user && !!posts?.length && (
         <div className={s.profile__posts}>
           {Array.from(posts)
@@ -131,6 +146,7 @@ export default function Profile() {
               <Post
                 key={p.id}
                 {...p}
+                meId={me?.id}
                 fullName={`${user?.first_name} ${user?.last_name}`}
                 avatar={user?.avatar}
                 handleRemovePost={handleRemovePost}

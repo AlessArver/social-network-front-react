@@ -10,14 +10,15 @@ import { Avatar } from "components/Avatar";
 import { Dropdown } from "components/Dropdown";
 
 import s from "./index.module.sass";
-// import { socket } from "utils/socket";
 
 export interface IPostProps extends IPost {
+  meId?: string;
   avatar?: string;
   fullName: string;
   handleRemovePost: (postId: string) => void;
 }
 export const Post: FC<IPostProps> = ({
+  meId,
   id,
   userId,
   avatar,
@@ -25,12 +26,10 @@ export const Post: FC<IPostProps> = ({
   text,
   handleRemovePost,
 }) => {
-  const showOptions = useToggle();
+  const showOptions = useToggle(false);
 
   const onRemove = () => {
-    // socket.emit("removePost", id, (res: IPost) => {
-    //   handleRemovePost(res.id);
-    // });
+    handleRemovePost(id);
   };
 
   return (
@@ -45,17 +44,22 @@ export const Post: FC<IPostProps> = ({
           />
           <div className={s.post__fullName}>{fullName}</div>
         </Link>
-        <Dropdown
-          childrenItems={[
-            // { onClick: () => {}, text: "Edit" },
-            { onClick: onRemove, text: "Remove" },
-          ]}
-          visible={showOptions.value}
-          onOpen={showOptions.set}
-          onClose={showOptions.unset}
-        >
-          <MdMoreHoriz onClick={showOptions.toggle} className={s.post__more} />
-        </Dropdown>
+        {meId === userId && (
+          <Dropdown
+            childrenItems={[
+              // { onClick: () => {}, text: "Edit" },
+              { onClick: onRemove, text: "Remove" },
+            ]}
+            visible={showOptions.value}
+            onOpen={showOptions.set}
+            onClose={showOptions.unset}
+          >
+            <MdMoreHoriz
+              onClick={showOptions.toggle}
+              className={s.post__more}
+            />
+          </Dropdown>
+        )}
       </div>
       <p className={s.post__text}>{text}</p>
     </div>

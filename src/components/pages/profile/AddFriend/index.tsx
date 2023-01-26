@@ -73,8 +73,6 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
   }, []);
 
   useEffect(() => {
-    // * НАДО СДЕЛАТЬ ТАК,ЧТОБ ПОСЛЕ ДОБАВЛЕНИЯ В ЧС, У ДРУГОГО ЮЗЕРА БЫЛ ТЕКС: ВЫ В ЧС
-
     if (friendUpdated?.friendUpdated) {
       if (me.id === friendUpdated?.friendUpdated?.to_id) {
         if (user.id === friendUpdated?.friendUpdated?.from_id) {

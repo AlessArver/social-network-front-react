@@ -3,9 +3,6 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 import { REQUIRED_FIELD_VALIDATION } from "utils/formValidation/validatinoFields";
-// import { socket } from "utils/socket";
-
-import { IPost } from "apollo/queries/post";
 
 import { Input } from "components/Input";
 import { Button } from "components/Button";
@@ -23,18 +20,15 @@ const validationSchema = Yup.object().shape({
 });
 
 export interface ICreatePost {
-  userId: string | string[] | undefined;
-  handleAddPost: (post: IPost) => void;
+  handleAddPost: (text: string) => void;
 }
-export const CreatePost: FC<ICreatePost> = ({ userId, handleAddPost }) => {
+export const CreatePost: FC<ICreatePost> = ({ handleAddPost }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values, { resetForm }: any) => {
-      // socket.emit("createPost", { ...values, userId }, (res: any) => {
-      //   resetForm();
-      //   handleAddPost(res);
-      // });
+    onSubmit: ({ text }: typeof initialValues, { resetForm }: any) => {
+      handleAddPost(text);
+      resetForm();
     },
   });
 

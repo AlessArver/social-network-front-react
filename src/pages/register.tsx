@@ -1,10 +1,11 @@
-import { HTMLInputTypeAttribute } from "react";
+import { HTMLInputTypeAttribute, useEffect } from "react";
 import Router from "next/router";
 import { useFormik } from "formik";
-import { useMutation } from "@apollo/client";
+import { useMutation, useReactiveVar } from "@apollo/client";
 import * as Yup from "yup";
 
 import { CREATE_USER } from "apollo/mutations/user";
+import { isAuthVar } from "apollo/variables/user";
 
 import {
   EMAIL_FIELD_VALIDATION,
@@ -17,6 +18,7 @@ import { AuthLayout, AuthLayoutType } from "layouts/AuthLayout";
 import { Input } from "components/Input";
 
 import s from "layouts/AuthLayout/index.module.sass";
+import { queryWrapper } from "utils/queryWrapper";
 
 export enum RegisterValues {
   first_name = "first_name",
@@ -39,6 +41,13 @@ const validationSchema = Yup.object().shape({
 
 export default function Register() {
   const [_createUserMutation, { loading }] = useMutation(CREATE_USER);
+  const isAuth = useReactiveVar(isAuthVar);
+
+  useEffect(() => {
+    if (isAuth) {
+      Router.push("/profile");
+    }
+  }, [isAuth]);
 
   const formik = useFormik({
     initialValues,

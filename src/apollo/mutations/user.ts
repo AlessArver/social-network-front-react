@@ -19,7 +19,15 @@ export const LOGIN = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation updateUser($updateUser: UpdateUserInput!) {
-    updateUser(updateUser: $updateUser)
+  mutation updateUser($updateUserInput: UpdateUserInput!) {
+    updateUser(updateUserInput: $updateUserInput) {
+      id
+      first_name
+      last_name
+      avatar
+      email
+      password
+      is_online
+    }
   }
 `;

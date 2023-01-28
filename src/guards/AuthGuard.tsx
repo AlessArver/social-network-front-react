@@ -1,10 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Router from "next/router";
 import { useLazyQuery, useMutation, useReactiveVar } from "@apollo/client";
 
-import { isAuthVar, meLoadingVar, meVar } from "apollo/variables/user";
+import {
+  isAuthVar,
+  isOnlineVar,
+  meLoadingVar,
+  meVar,
+} from "apollo/variables/user";
 import { ME } from "apollo/queries/user";
 import { UPDATE_USER } from "apollo/mutations/user";
+import { useNetworkStatus } from "hooks/useNetworkStatus";
+import { peer } from "utils/peer";
 
 export const AuthGuard = ({
   children,
@@ -16,10 +23,30 @@ export const AuthGuard = ({
   const [_getMe, { data, loading, error }] = useLazyQuery(ME);
   const [_updateUserMutation] = useMutation(UPDATE_USER);
   const isAuth = useReactiveVar(isAuthVar);
+  const [isOnline, setIsOnline] = useState(true);
 
-  const handleChangeIsOnline = (payload: boolean) => () => {
-    _updateUserMutation({ variables: { id: data?.me.id, is_online: payload } });
-  };
+  const handleSetOnline = setInterval(() => {
+    // setIsOnline(navigator.onLine);
+  }, 1000);
+
+  useEffect(() => {
+    return () => {
+      clearInterval(handleSetOnline);
+    };
+  }, []);
+
+  useEffect(() => {
+    peer.on("signal", (data) => {
+      console.log("signal", data);
+    });
+
+    peer.on("stream", (currentStream) => {
+      console.log("stream", currentStream);
+    });
+    peer.on("close", (r: any) => {
+      console.log("close", r);
+    });
+  }, []);
 
   useEffect(() => {
     _getMe();
@@ -28,12 +55,6 @@ export const AuthGuard = ({
       meVar(data?.me);
       meLoadingVar(loading);
     }
-    window.addEventListener("offline", handleChangeIsOnline(false));
-    window.addEventListener("online", handleChangeIsOnline(true));
-    // return () => {
-    //   window.addEventListener("offline", () => handleChangeIsOnline(false));
-    //   window.addEventListener("online", () => handleChangeIsOnline(true));
-    // };
   }, [data, isAuth]);
 
   if (requiredAuth && error) {

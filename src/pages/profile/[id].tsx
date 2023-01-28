@@ -22,6 +22,7 @@ import { ProfileFriends } from "components/pages/profile/ProfileFriends";
 import { Post } from "components/Post";
 import { CreatePost } from "components/pages/profile/CreatePost";
 import { AddFriend } from "components/pages/profile/AddFriend";
+import { Online } from "components/pages/profile/Online";
 
 import s from "styles/pages/profile.module.sass";
 
@@ -125,7 +126,7 @@ export default function Profile() {
           <Avatar width={100} height={100} className={s.profile__avatar} />
           <div className={s.profile__fullName}>
             {user?.first_name} {user?.last_name}
-            {/* <div>{user?.is_online ? "online" : "offline"}</div> */}
+            <Online meId={me?.id} authorId={id} />
           </div>
         </div>
         {!!user && !!me && me.id !== user.id && (

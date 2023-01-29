@@ -30,3 +30,16 @@ export const FRIENDS = gql`
     }
   }
 `;
+export const FRIEND = gql`
+  query friend($friendsInput: FriendsInput!) {
+    friend(friendsInput: $friendsInput) {
+      id
+      from_id
+      to_id
+      avatar
+      status
+      first_name
+      last_name
+    }
+  }
+`;

@@ -30,8 +30,6 @@ export const UPDATE_FRIEND = gql`
 
 export const REMOVE_FRIEND = gql`
   mutation removeFriend($id: String!) {
-    removeFriend(id: $id) {
-      id
-    }
+    removeFriend(id: $id)
   }
 `;

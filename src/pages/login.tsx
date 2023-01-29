@@ -12,7 +12,6 @@ import {
   EMAIL_FIELD_VALIDATION,
   REQUIRED_FIELD_VALIDATION,
 } from "utils/formValidation/validatinoFields";
-import { queryWrapper } from "utils/queryWrapper";
 
 import { AuthLayout, AuthLayoutType } from "layouts/AuthLayout";
 

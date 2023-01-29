@@ -18,6 +18,7 @@ export const USERS = gql`
       last_name
       avatar
       email
+      is_online
     }
   }
 `;
@@ -30,6 +31,7 @@ export const USERS_BY_IDS = gql`
       last_name
       avatar
       email
+      is_online
     }
   }
 `;
@@ -42,6 +44,7 @@ export const USER = gql`
       last_name
       avatar
       email
+      is_online
     }
   }
 `;
@@ -54,6 +57,7 @@ export const ME = gql`
       last_name
       avatar
       email
+      is_online
     }
   }
 `;

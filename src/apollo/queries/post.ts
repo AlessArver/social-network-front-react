@@ -1,10 +1,10 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export interface IPost {
-  id: string;
-  text: string;
-  userId: string;
-  created_at: Date;
+  id: string
+  text: string
+  userId: string
+  created_at: Date
 }
 
 export const POSTS = gql`
@@ -16,4 +16,4 @@ export const POSTS = gql`
       created_at
     }
   }
-`;
+`

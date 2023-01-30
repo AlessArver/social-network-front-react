@@ -1,34 +1,34 @@
-import { FC, ReactNode } from "react";
-import clsx from "clsx";
+import { FC, ReactNode } from 'react'
+import clsx from 'clsx'
 
-import s from "./index.module.sass";
+import s from './index.module.sass'
 
 export enum ButtonSize {
-  sm = "sm",
-  md = "md",
+  sm = 'sm',
+  md = 'md'
 }
 export enum ButtonType {
-  danger = "danger",
+  danger = 'danger'
 }
 export interface IButton {
-  children: ReactNode;
-  fullWidth?: boolean;
-  size?: ButtonSize;
-  onClick?: () => void;
-  htmlType?: "button" | "submit";
-  disabled?: boolean;
-  type?: ButtonType;
-  className?: string;
+  children: ReactNode
+  fullWidth?: boolean
+  size?: ButtonSize
+  onClick?: () => void
+  htmlType?: 'button' | 'submit'
+  disabled?: boolean
+  type?: ButtonType
+  className?: string
 }
 export const Button: FC<IButton> = ({
   children,
   fullWidth,
   size = ButtonSize.md,
   onClick,
-  htmlType = "button",
+  htmlType = 'button',
   disabled,
   type,
-  className,
+  className
 }) => {
   return (
     <button
@@ -39,7 +39,7 @@ export const Button: FC<IButton> = ({
         s[`button_${type}`],
         {
           [s.button_disabled]: disabled,
-          [s.button_fullWidth]: fullWidth,
+          [s.button_fullWidth]: fullWidth
         },
 
         className
@@ -49,5 +49,5 @@ export const Button: FC<IButton> = ({
     >
       {children}
     </button>
-  );
-};
+  )
+}

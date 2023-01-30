@@ -1,24 +1,24 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 export const useToggle = (defaultValue = false) => {
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(defaultValue)
 
   const toggle = () => {
-    setValue(!value);
-  };
+    setValue(!value)
+  }
 
   const set = () => {
-    setValue(true);
-  };
+    setValue(true)
+  }
 
   const unset = () => {
-    setValue(false);
-  };
+    setValue(false)
+  }
 
   return {
     value,
     toggle,
     set,
-    unset,
-  };
-};
+    unset
+  }
+}

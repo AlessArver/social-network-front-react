@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { MainLayout } from "layouts/MainLayout";
+import { MainLayout } from 'layouts/MainLayout'
 
-import { Dialog, IDialog } from "components/pages/dialogs/Dialog";
-
-import s from "styles/pages/dialogs.module.sass";
+import { IDialog } from 'components/pages/dialogs/Dialog'
 
 function Dialogs() {
-  const [dialogs] = useState<IDialog[]>([
-    { id: "543", fullName: "Roman Romanov", text: "Hi, how a u?" },
-  ]);
+  // eslint-disable-next-line no-empty-pattern
+  const [] = useState<IDialog[]>([{ id: '543', fullName: 'Roman Romanov', text: 'Hi, how a u?' }])
 
   return (
     <MainLayout>
@@ -20,8 +17,8 @@ function Dialogs() {
         ))}
       </div> */}
     </MainLayout>
-  );
+  )
 }
-Dialogs.requireAuth = true;
+Dialogs.requireAuth = true
 
-export default Dialogs;
+export default Dialogs

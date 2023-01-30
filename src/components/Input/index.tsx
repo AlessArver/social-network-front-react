@@ -1,20 +1,20 @@
-import { ChangeEventHandler, FC, HTMLInputTypeAttribute } from "react";
-import clsx from "clsx";
+import { ChangeEventHandler, FC, HTMLInputTypeAttribute } from 'react'
+import clsx from 'clsx'
 
-import s from "./index.module.sass";
+import s from './index.module.sass'
 
 export interface IInput {
-  name?: string;
-  value?: string;
-  placeholder?: string;
-  smallText?: string;
-  touched?: boolean;
-  danger?: boolean;
-  type?: HTMLInputTypeAttribute;
-  fullWidth?: boolean;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  className?: string;
-  inputClassName?: string;
+  name?: string
+  value?: string
+  placeholder?: string
+  smallText?: string
+  touched?: boolean
+  danger?: boolean
+  type?: HTMLInputTypeAttribute
+  fullWidth?: boolean
+  onChange?: ChangeEventHandler<HTMLInputElement>
+  className?: string
+  inputClassName?: string
 }
 export const Input: FC<IInput> = ({
   name,
@@ -27,7 +27,7 @@ export const Input: FC<IInput> = ({
   fullWidth,
   onChange,
   className,
-  inputClassName,
+  inputClassName
 }) => {
   return (
     <div
@@ -35,7 +35,7 @@ export const Input: FC<IInput> = ({
         s.input,
         {
           [s.input_fullWidth]: fullWidth,
-          [s.input_danger]: touched && danger,
+          [s.input_danger]: touched && danger
         },
         className
       )}
@@ -50,11 +50,11 @@ export const Input: FC<IInput> = ({
       />
       <span
         className={clsx(s.input__smallText, {
-          [s.input__smallText_show]: touched && !!smallText,
+          [s.input__smallText_show]: touched && !!smallText
         })}
       >
         {smallText}
       </span>
     </div>
-  );
-};
+  )
+}

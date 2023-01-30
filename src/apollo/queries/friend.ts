@@ -1,20 +1,20 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export enum FriendStatus {
-  pending = "pending",
-  added = "added",
-  blocked = "blocked",
-  add_to_response = "add_to_response",
+  pending = 'pending',
+  added = 'added',
+  blocked = 'blocked',
+  add_to_response = 'add_to_response'
 }
 
 export interface IFriend {
-  id: string;
-  from_id: string;
-  to_id: string;
-  avatar?: string;
-  status: FriendStatus;
-  first_name: string;
-  last_name: string;
+  id: string
+  from_id: string
+  to_id: string
+  avatar?: string
+  status: FriendStatus
+  first_name: string
+  last_name: string
 }
 
 export const FRIENDS = gql`
@@ -29,7 +29,7 @@ export const FRIENDS = gql`
       last_name
     }
   }
-`;
+`
 export const FRIEND = gql`
   query friend($friendsInput: FriendsInput!) {
     friend(friendsInput: $friendsInput) {
@@ -42,4 +42,4 @@ export const FRIEND = gql`
       last_name
     }
   }
-`;
+`

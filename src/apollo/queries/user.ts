@@ -1,13 +1,13 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export interface IUser {
-  id: string;
-  first_name: string;
-  last_name: string;
-  avatar?: string;
-  email: string;
-  password: string;
-  is_online?: boolean;
+  id: string
+  first_name: string
+  last_name: string
+  avatar?: string
+  email: string
+  password: string
+  is_online?: boolean
 }
 
 export const USERS = gql`
@@ -21,7 +21,7 @@ export const USERS = gql`
       is_online
     }
   }
-`;
+`
 
 export const USERS_BY_IDS = gql`
   query usersByIds($ids: [String!]!) {
@@ -34,7 +34,7 @@ export const USERS_BY_IDS = gql`
       is_online
     }
   }
-`;
+`
 
 export const USER = gql`
   query user($id: String!) {
@@ -47,7 +47,7 @@ export const USER = gql`
       is_online
     }
   }
-`;
+`
 
 export const ME = gql`
   query me {
@@ -60,4 +60,4 @@ export const ME = gql`
       is_online
     }
   }
-`;
+`

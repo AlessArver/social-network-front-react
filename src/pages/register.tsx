@@ -1,77 +1,76 @@
-import { HTMLInputTypeAttribute, useEffect } from "react";
-import Router from "next/router";
-import { useFormik } from "formik";
-import { useMutation, useReactiveVar } from "@apollo/client";
-import * as Yup from "yup";
+import { HTMLInputTypeAttribute, useEffect } from 'react'
+import Router from 'next/router'
+import { useFormik } from 'formik'
+import { useMutation, useReactiveVar } from '@apollo/client'
+import * as Yup from 'yup'
 
-import { CREATE_USER } from "apollo/mutations/user";
-import { isAuthVar } from "apollo/variables/user";
+import { CREATE_USER } from 'apollo/mutations/user'
+import { isAuthVar } from 'apollo/variables/user'
 
 import {
   EMAIL_FIELD_VALIDATION,
   PASSWORD_FIELD_VALIDATION,
-  REQUIRED_FIELD_VALIDATION,
-} from "utils/formValidation/validatinoFields";
+  REQUIRED_FIELD_VALIDATION
+} from 'utils/formValidation/validatinoFields'
 
-import { AuthLayout, AuthLayoutType } from "layouts/AuthLayout";
+import { AuthLayout, AuthLayoutType } from 'layouts/AuthLayout'
 
-import { Input } from "components/Input";
+import { Input } from 'components/Input'
 
-import s from "layouts/AuthLayout/index.module.sass";
-import { queryWrapper } from "utils/queryWrapper";
+import s from 'layouts/AuthLayout/index.module.sass'
 
 export enum RegisterValues {
-  first_name = "first_name",
-  last_name = "last_name",
-  email = "email",
-  password = "password",
+  first_name = 'first_name',
+  last_name = 'last_name',
+  email = 'email',
+  password = 'password'
 }
 const initialValues = {
-  [RegisterValues.first_name]: "",
-  [RegisterValues.last_name]: "",
-  [RegisterValues.email]: "",
-  [RegisterValues.password]: "",
-};
+  [RegisterValues.first_name]: '',
+  [RegisterValues.last_name]: '',
+  [RegisterValues.email]: '',
+  [RegisterValues.password]: ''
+}
 const validationSchema = Yup.object().shape({
   [RegisterValues.first_name]: REQUIRED_FIELD_VALIDATION,
   [RegisterValues.last_name]: REQUIRED_FIELD_VALIDATION,
   [RegisterValues.email]: EMAIL_FIELD_VALIDATION,
-  [RegisterValues.password]: PASSWORD_FIELD_VALIDATION,
-});
+  [RegisterValues.password]: PASSWORD_FIELD_VALIDATION
+})
 
 export default function Register() {
-  const [_createUserMutation, { loading }] = useMutation(CREATE_USER);
-  const isAuth = useReactiveVar(isAuthVar);
+  const [_createUserMutation, { loading }] = useMutation(CREATE_USER)
+  const isAuth = useReactiveVar(isAuthVar)
 
   useEffect(() => {
     if (isAuth) {
-      Router.push("/profile");
+      Router.push('/profile')
     }
-  }, [isAuth]);
+  }, [isAuth])
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values, { resetForm }: any) => {
+    onSubmit: (values, { resetForm }) => {
       _createUserMutation({
         variables: {
-          createUserInput: values,
-        },
+          createUserInput: values
+        }
       }).then(() => {
-        resetForm();
-        Router.push("/login");
-      });
-    },
-  });
+        resetForm()
+        Router.push('/login')
+      })
+    }
+  })
 
   const renderInput = ({
     name,
     placeholder,
-    type,
+    type
   }: {
-    placeholder: string;
-    name: RegisterValues;
-    type?: HTMLInputTypeAttribute;
+    placeholder: string
+    name: RegisterValues
+    type?: HTMLInputTypeAttribute
   }) => (
     <Input
       onChange={formik.handleChange}
@@ -85,33 +84,29 @@ export default function Register() {
       danger={!!formik.errors[name]}
       smallText={formik.errors[name]}
     />
-  );
+  )
 
   return (
     <div>
-      <AuthLayout
-        loading={loading}
-        onSubmit={formik.handleSubmit}
-        type={AuthLayoutType.register}
-      >
+      <AuthLayout loading={loading} onSubmit={formik.handleSubmit} type={AuthLayoutType.register}>
         {renderInput({
           name: RegisterValues.first_name,
-          placeholder: "First name",
+          placeholder: 'First name'
         })}
         {renderInput({
           name: RegisterValues.last_name,
-          placeholder: "Last name",
+          placeholder: 'Last name'
         })}
         {renderInput({
           name: RegisterValues.email,
-          placeholder: "Email",
+          placeholder: 'Email'
         })}
         {renderInput({
           name: RegisterValues.password,
-          placeholder: "Password",
-          type: "password",
+          placeholder: 'Password',
+          type: 'password'
         })}
       </AuthLayout>
     </div>
-  );
+  )
 }

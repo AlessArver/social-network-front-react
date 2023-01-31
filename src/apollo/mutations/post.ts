@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const CREATE_POST = gql`
   mutation createPost($createPostInput: CreatePostInput!) {
@@ -9,7 +9,7 @@ export const CREATE_POST = gql`
       created_at
     }
   }
-`;
+`
 
 export const REMOVE_POST = gql`
   mutation removePost($id: String!) {
@@ -17,4 +17,4 @@ export const REMOVE_POST = gql`
       id
     }
   }
-`;
+`

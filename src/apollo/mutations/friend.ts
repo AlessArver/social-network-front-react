@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const CREATE_FRIEND = gql`
   mutation createFriend($createFriendInput: CreateFriendInput!) {
@@ -12,7 +12,7 @@ export const CREATE_FRIEND = gql`
       last_name
     }
   }
-`;
+`
 
 export const UPDATE_FRIEND = gql`
   mutation updateFriend($updateFriendInput: UpdateFriendInput!) {
@@ -26,10 +26,10 @@ export const UPDATE_FRIEND = gql`
       last_name
     }
   }
-`;
+`
 
 export const REMOVE_FRIEND = gql`
   mutation removeFriend($id: String!) {
     removeFriend(id: $id)
   }
-`;
+`

@@ -1,5 +1,5 @@
-import { makeVar } from "@apollo/client";
+import { makeVar } from '@apollo/client'
 
-import { IPost } from "apollo/queries/post";
+import { IPost } from 'apollo/queries/post'
 
-export const postsVar = makeVar<IPost[]>([]);
+export const postsVar = makeVar<IPost[]>([])

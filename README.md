@@ -3,7 +3,7 @@
   <li>Authorization</li>
   <li>Add/Block/Remove friend</li>
   <li>Add/Remove posts</li>
-  <li>Add realtime with gql subscriptions</li>
+  <li>Add realtime with socket.io</li>
 </ul>
 
 <h3>What I'll do later:</h3>

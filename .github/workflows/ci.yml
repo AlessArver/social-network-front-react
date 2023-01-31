@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install PNPM
+      - name: Install YARN
         run: npm i -g yarn@latest
       - run: yarn install --frozen-lockfile
 

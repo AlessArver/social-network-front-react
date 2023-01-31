@@ -52,4 +52,4 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn i --frozen-lockfile && yarn run build
+      - run: yarn install --frozen-lockfile && yarn run build

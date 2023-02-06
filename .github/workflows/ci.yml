@@ -1,55 +1,55 @@
-#name: CI
-#
-#on:
-#  push:
-#    branches: [ dev ]
-#  pull_request:
-#    branches: [ dev ]
-#
-#jobs:
-#  validate:
-#    strategy:
-#      matrix:
-#        node-version: [ 16.x ]
-#
-#    name: Run all stuff
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          fetch-depth: 0 # Retrieve Git history, needed to verify commits
-#      - name: Use Node.js ${{ matrix.node-version }}
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#      - name: Install PNPM
-#        run: npm i -g yarn@latest
-#      - run: yarn --frozen-lockfile
-#
-#      - if: github.event_name == 'pull_request'
-#        name: Validate all commits from PR
-#        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
-#
-#      - name: Linter
-#        run: yarn run lint
-#
-#      - name: Type checking
-#        run: yarn run check-types
-#
-#  build:
-#    strategy:
-#      matrix:
-#        node-version: [ 16.x ]
-#        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-#
-#    name: Build with ${{ matrix.node-version }}
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Use Node.js ${{ matrix.node-version }}
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#      - run: yarn i --frozen-lockfile && yarn run build
+name: CI
+
+on:
+ push:
+   branches: [ main, dev ]
+ pull_request:
+   branches: [ main, dev ]
+
+jobs:
+ validate:
+   strategy:
+     matrix:
+       node-version: [ 16.x ]
+
+   name: Run all stuff
+   runs-on: ubuntu-latest
+
+   steps:
+     - uses: actions/checkout@v3
+       with:
+         fetch-depth: 0 # Retrieve Git history, needed to verify commits
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v3
+       with:
+         node-version: ${{ matrix.node-version }}
+     - name: Install PNPM
+       run: npm i -g yarn@latest
+     - run: yarn install --frozen-lockfile
+
+     - if: github.event_name == 'pull_request'
+       name: Validate all commits from PR
+       run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+     - name: Linter
+       run: yarn run lint
+
+     - name: Type checking
+       run: yarn run check-types
+
+ build:
+   strategy:
+     matrix:
+       node-version: [ 16.x ]
+       # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+   name: Build with ${{ matrix.node-version }}
+   runs-on: ubuntu-latest
+
+   steps:
+     - uses: actions/checkout@v3
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v3
+       with:
+         node-version: ${{ matrix.node-version }}
+     - run: yarn install --frozen-lockfile && yarn run build

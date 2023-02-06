@@ -1,32 +1,19 @@
 import Link from 'next/link'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import clsx from 'clsx'
+
+import { IUser, USER, USERS_BY_IDS } from 'apollo/queries/user'
 
 import { Avatar } from 'components/Avatar'
 
 import s from './index.module.sass'
-import { useQuery } from '@apollo/client'
-import { FRIENDS } from 'apollo/queries/friend'
-import { useRouter } from 'next/router'
 
-export interface IPostFriend {
-  id: string
-  avatar?: string
-}
 export interface IProfileFriends {
   owner_id: string
-  items: IPostFriend[]
+  items: IUser[]
   className?: string
 }
-export const ProfileFriends: FC<IProfileFriends> = ({ owner_id, items, className }) => {
-  const router = useRouter()
-  const { id } = router.query
-  const { data, loading = true } = useQuery(FRIENDS, {
-    variables: {
-      friendsInput: { to_id: id }
-    }
-  })
-
+export const ProfileFriends: FC<IProfileFriends> = memo(function ProfileFriends({ owner_id, items, className }) {
   return (
     <div className={clsx(s.profileFriends, className)}>
       <Link href={`/friends/${owner_id}`} className={s.profileFriends__title}>
@@ -34,11 +21,12 @@ export const ProfileFriends: FC<IProfileFriends> = ({ owner_id, items, className
       </Link>
       <div className={s.profileFriends__items}>
         {items.map(i => (
-          <Link href={`/profile/${i.id}`} key={i.id}>
-            <Avatar width={40} height={40} />
+          <Link href={`/profile/${i.id}`} key={i.id} className={s.profileFriends__item}>
+            <Avatar size={40} />
+            <span className={s.profileFriends__name}>{i.first_name}</span>
           </Link>
         ))}
       </div>
     </div>
   )
-}
+})

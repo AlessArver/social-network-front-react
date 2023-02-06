@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import s from './index.module.sass'
 
 export enum ButtonSize {
+  xs = 'xs',
   sm = 'sm',
   md = 'md'
 }

@@ -34,7 +34,7 @@ export const Dialog: FC<IDialog> = ({ id, fullName, text, className }) => {
     >
       <div className={s.dialog__header}>
         <div className={s.dialog__headerColumn}>
-          <Avatar width={40} height={40} className={s.dialog__avatar} />
+          <Avatar size={40} className={s.dialog__avatar} />
           <div className={s.dialog_fullName}>{fullName}</div>
         </div>
         <Dropdown

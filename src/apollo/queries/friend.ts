@@ -23,10 +23,7 @@ export const FRIENDS = gql`
       id
       from_id
       to_id
-      avatar
       status
-      first_name
-      last_name
     }
   }
 `
@@ -36,10 +33,7 @@ export const FRIEND = gql`
       id
       from_id
       to_id
-      avatar
       status
-      first_name
-      last_name
     }
   }
 `

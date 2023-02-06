@@ -17,18 +17,18 @@ export interface IAddFriend {
   user: IUser
 }
 export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
-  const [_getMyFriendData] = useLazyQuery(FRIEND)
-  const [_createFriendMutation] = useMutation(CREATE_FRIEND)
-  const [_updateFriendMutation] = useMutation(UPDATE_FRIEND)
-  const [_removeFriendMutation] = useMutation(REMOVE_FRIEND)
+  const [getMyFriendData] = useLazyQuery(FRIEND)
+  const [createFriendMutation] = useMutation(CREATE_FRIEND)
+  const [updateFriendMutation] = useMutation(UPDATE_FRIEND)
+  const [removeFriendMutation] = useMutation(REMOVE_FRIEND)
   const [friend, setFriend] = useState<IFriend | null>(null)
   const [myFriend, setMyFriend] = useState<IFriend | null>(null)
 
   const handleGetFriend = () =>
-    _getMyFriendData({
+    getMyFriendData({
       variables: { friendsInput: { from_id: me.id, to_id: user.id } },
       onCompleted: data => {
-        _getMyFriendData({
+        getMyFriendData({
           variables: { friendsInput: { from_id: user.id, to_id: me.id } }
         })
       }
@@ -58,19 +58,17 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
 
   const handleAddFriend = () => {
     if (!friend && !myFriend) {
-      _createFriendMutation({
+      createFriendMutation({
         variables: {
           createFriendInput: {
             from_id: me.id,
             to_id: user.id,
-            status: FriendStatus.pending,
-            first_name: user.first_name,
-            last_name: user.last_name
+            status: FriendStatus.pending
           }
         }
       })
     } else if (friend && !myFriend) {
-      _updateFriendMutation({
+      updateFriendMutation({
         variables: {
           updateFriendInput: {
             id: friend.id,
@@ -78,14 +76,12 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
           }
         }
       })
-      _createFriendMutation({
+      createFriendMutation({
         variables: {
           createFriendInput: {
             from_id: me.id,
             to_id: user.id,
-            status: FriendStatus.added,
-            first_name: user.first_name,
-            last_name: user.last_name
+            status: FriendStatus.added
           }
         }
       })
@@ -95,14 +91,14 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
   const toggleBlock = () => {
     if (myFriend?.status === FriendStatus.blocked) {
       // Функция для разблокировки
-      _removeFriendMutation({
+      removeFriendMutation({
         variables: {
           id: myFriend.id
         }
       })
     } else if (friend && myFriend?.status === FriendStatus.added) {
       // Функция для блокировки
-      _updateFriendMutation({
+      updateFriendMutation({
         variables: {
           updateFriendInput: {
             id: myFriend.id,
@@ -110,7 +106,7 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
           }
         }
       })
-      _removeFriendMutation({
+      removeFriendMutation({
         variables: {
           id: friend.id
         }
@@ -120,12 +116,12 @@ export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
 
   const onRemove = () => {
     if (myFriend && friend) {
-      _removeFriendMutation({
+      removeFriendMutation({
         variables: {
           id: myFriend.id
         }
       })
-      _updateFriendMutation({
+      updateFriendMutation({
         variables: {
           updateFriendInput: {
             id: friend.id,

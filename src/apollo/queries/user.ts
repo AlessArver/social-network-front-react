@@ -10,6 +10,17 @@ export interface IUser {
   is_online?: boolean
 }
 
+export interface IUserByIdsQueryItem {
+  id: string
+  first_name: string
+  last_name: string
+  avatar?: string
+  is_online?: boolean
+}
+export interface IUserByIdsQuery {
+  usersByIds: IUserByIdsQueryItem[]
+}
+
 export const USERS = gql`
   query users {
     users {
@@ -30,7 +41,6 @@ export const USERS_BY_IDS = gql`
       first_name
       last_name
       avatar
-      email
       is_online
     }
   }

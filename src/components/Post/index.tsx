@@ -28,7 +28,7 @@ export const Post: FC<IPostProps> = ({ meId, id, userId, avatar, fullName, text,
     <div className={s.post}>
       <div className={s.post__header}>
         <Link href={`/profile/${userId}`} className={s.post__owner}>
-          <Avatar width={40} height={40} src={avatar} className={s.post__avatar} />
+          <Avatar size={40} src={avatar} className={s.post__avatar} />
           <div className={s.post__fullName}>{fullName}</div>
         </Link>
         {meId === userId && (

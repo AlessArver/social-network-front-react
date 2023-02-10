@@ -1,13 +1,14 @@
 import { FC, ReactNode } from 'react'
 import Cookie from 'js-cookie'
 import Router from 'next/router'
-import clsx from 'clsx'
 
 import { isAuthVar, meVar } from 'apollo/variables/user'
 
-import { Navbar } from 'components/app/Navbar'
+import { Navbar } from 'components/Navbar'
 
 import s from './index.module.sass'
+import { Card } from 'components/Card'
+import clsx from 'clsx'
 
 export interface IMainLayout {
   children: ReactNode
@@ -41,11 +42,10 @@ export const MainLayout: FC<IMainLayout> = ({ children, asideChildren, childrenC
 
   return (
     <div className={s.mainLayout}>
-      <div className={s.mainLayout__card}>
-        <Navbar items={NAV_ITEMS} className={s.mainLayout__navbar} />
-        <div className={clsx(s.mainLayout__children, childrenClassName)}>{children}</div>
-        {!!asideChildren && <div className={s.mainLayout__aside}>{asideChildren}</div>}
-      </div>
+      <Navbar className={s.mainLayout__navbar} />
+      <Card className={clsx(s.mainLayout__children, childrenClassName)} cardClassName={s.mainLayout__childrenCard}>
+        {children}
+      </Card>
     </div>
   )
 }

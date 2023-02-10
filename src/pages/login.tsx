@@ -11,10 +11,9 @@ import { LOGIN } from 'apollo/mutations/user'
 import { EMAIL_FIELD_VALIDATION, REQUIRED_FIELD_VALIDATION } from 'utils/formValidation/validatinoFields'
 
 import { AuthLayout, AuthLayoutType } from 'layouts/AuthLayout'
+import s from 'layouts/AuthLayout/index.module.sass'
 
 import { Input } from 'components/Input'
-
-import s from 'layouts/AuthLayout/index.module.sass'
 
 export enum LoginValues {
   email = 'email',

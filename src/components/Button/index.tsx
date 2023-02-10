@@ -1,5 +1,8 @@
 import { FC, ReactNode } from 'react'
 import clsx from 'clsx'
+import { css } from '@emotion/react'
+import { themeVar } from 'apollo/variables/app'
+import { useReactiveVar } from '@apollo/client'
 
 import s from './index.module.sass'
 
@@ -31,6 +34,8 @@ export const Button: FC<IButton> = ({
   type,
   className
 }) => {
+  const theme = useReactiveVar(themeVar)
+
   return (
     <button
       onClick={onClick}
@@ -45,6 +50,9 @@ export const Button: FC<IButton> = ({
 
         className
       )}
+      css={css`
+        ${theme.button}
+      `}
       type={htmlType}
       disabled={disabled}
     >

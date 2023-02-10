@@ -1,23 +1,29 @@
-import { NextComponentType } from 'next'
-import { ComponentType } from 'react'
+import { NextComponentType, NextPageContext } from 'next'
 import { ApolloProvider } from '@apollo/client'
-
 import { client } from 'apollo'
 
-import 'styles/index.sass'
 import { AuthGuard } from 'guards/AuthGuard'
+
+import { PageLayout } from 'layouts/PageLayout'
+
+import 'styles/index.sass'
 
 type ComponentPropsType = {
   requireAuth?: boolean
 }
-type NewComponentType = ComponentPropsType & NextComponentType & ComponentType
+type NewComponentType = ComponentPropsType & NextComponentType<ComponentPropsType, NextPageContext>
 
-export default function App({ Component, ...pageProps }: { Component: NewComponentType }) {
+function App({ Component }: { Component: NewComponentType }) {
   return (
     <ApolloProvider client={client}>
       <AuthGuard requiredAuth={Component?.requireAuth}>
-        <Component {...pageProps} />
+        <>
+          <PageLayout>
+            <Component />
+          </PageLayout>
+        </>
       </AuthGuard>
     </ApolloProvider>
   )
 }
+export default App

@@ -1,0 +1,32 @@
+@import 'styles/typography'
+    
+.navbar
+    padding-top: 48px
+    padding-bottom: 34px
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+
+.navbar__logo
+    margin-right: 25px
+    @include xs-bold
+    text-decoration: none
+    color: inherit
+
+.navbar__items
+    display: flex
+    align-items: center
+
+.navbar__item
+    margin-right: 20px
+    cursor: pointer
+    transition: all .2s
+    text-decoration: none
+    color: inherit
+
+    &:last-child
+        margin-right: 0
+
+    &:hover
+        transform: scale(1.2)

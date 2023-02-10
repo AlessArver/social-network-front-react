@@ -15,6 +15,17 @@ const nextConfig = {
         destination: 'http://localhost:5000/graphql' // Proxy to Backend
       }
     ]
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack']
+    })
+
+    return config
+  },
+  compiler: {
+    emotion: true
   }
 }
 

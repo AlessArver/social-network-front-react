@@ -2,6 +2,9 @@ import { ChangeEventHandler, FC, HTMLInputTypeAttribute } from 'react'
 import clsx from 'clsx'
 
 import s from './index.module.sass'
+import { useReactiveVar } from '@apollo/client'
+import { themeVar } from 'apollo/variables/app'
+import { css } from '@emotion/react'
 
 export interface IInput {
   name?: string
@@ -29,6 +32,8 @@ export const Input: FC<IInput> = ({
   className,
   inputClassName
 }) => {
+  const theme = useReactiveVar(themeVar)
+
   return (
     <div
       className={clsx(
@@ -47,6 +52,9 @@ export const Input: FC<IInput> = ({
         value={value}
         type={type}
         className={clsx(s.input__form, inputClassName)}
+        css={css`
+          ${theme.form}
+        `}
       />
       <span
         className={clsx(s.input__smallText, {

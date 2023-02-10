@@ -1,4 +1,11 @@
-import { colorGreenOpacity, colorGreyDark, colorGreyLight, colorGreyMedium, colorLight } from 'assets/theme/colors'
+import {
+  colorGreenOpacity,
+  colorGreyDark,
+  colorGreyLight,
+  colorGreyLight2,
+  colorGreyMedium,
+  colorLight
+} from 'assets/theme/colors'
 
 export const FormStyles = {
   light: {
@@ -6,7 +13,10 @@ export const FormStyles = {
     borderColor: colorGreyLight,
     color: colorGreyDark,
     '::placeholder': {
-      color: colorGreyLight
+      color: colorGreyLight2
+    },
+    ':focus': {
+      outlineColor: colorGreyDark
     }
   },
   dark: {
@@ -15,6 +25,9 @@ export const FormStyles = {
     color: colorLight,
     '::placeholder': {
       color: colorGreyLight
+    },
+    '::focus': {
+      color: colorGreyLight2
     }
   }
 }

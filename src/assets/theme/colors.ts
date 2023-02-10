@@ -7,6 +7,7 @@ export const colorDarkOpacity = 'rgba(0, 0, 0, 0.13)'
 
 // Grey
 export const colorGreyLight = '#EDEEF0'
+export const colorGreyLight2 = '#9B9B9B'
 export const colorGreyMedium = '#222222'
 export const colorGreyDark = '#0F0F0F'
 

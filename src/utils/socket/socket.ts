@@ -1,7 +1,9 @@
 import io from 'socket.io-client'
 import Cookie from 'js-cookie'
 
-const token = Cookie.get('userToken')
+import { cookieFields } from 'constants/index'
+
+const token = Cookie.get(cookieFields.authToken)
 export const socket = io('http://localhost:5000', {
   reconnection: true,
   auth: {

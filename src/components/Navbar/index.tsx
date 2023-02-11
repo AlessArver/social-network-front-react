@@ -1,10 +1,15 @@
 import { FC } from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
 import { css } from '@emotion/react'
 import clsx from 'clsx'
 import { useReactiveVar } from '@apollo/client'
+import Cookie from 'js-cookie'
 
 import { themeVar } from 'apollo/variables/app'
+import { isAuthVar, meVar } from 'apollo/variables/user'
+
+import { cookieFields } from 'constants/index'
 
 import PersonIcon from 'assets/icons/person.svg'
 import MessagesIcon from 'assets/icons/message.svg'
@@ -14,14 +19,15 @@ import PaletteIcon from 'assets/icons/palette.svg'
 import ExitIcon from 'assets/icons/exit.svg'
 
 import { FontTypeEnum, FontWeightEnum, Typography } from 'components/Typography'
+import { NavbarItem } from './components/NavbarItem'
 
 import s from './index.module.sass'
 
 const ITEMS = [
-  { href: '/profile', icon: PersonIcon, authorizeed: true },
-  { href: '/messages', icon: MessagesIcon, authorizeed: true },
-  { href: '/news', icon: ArticleIcon, authorizeed: true },
-  { href: '/settings', icon: SettingsIcon, authorizeed: true },
+  { href: '/profile', icon: PersonIcon, authorized: true },
+  { href: '/messages', icon: MessagesIcon, authorized: true },
+  { href: '/news', icon: ArticleIcon, authorized: true },
+  { href: '/settings', icon: SettingsIcon, authorized: true },
   { href: '/palette', icon: PaletteIcon }
 ]
 export interface INavbar {
@@ -29,6 +35,14 @@ export interface INavbar {
 }
 export const Navbar: FC<INavbar> = ({ className }) => {
   const theme = useReactiveVar(themeVar)
+  const isAuth = useReactiveVar(isAuthVar)
+
+  const onExit = () => {
+    Cookie.remove(cookieFields.authToken)
+    meVar(null)
+    isAuthVar(false)
+    Router.push('/login')
+  }
 
   return (
     <div
@@ -43,14 +57,14 @@ export const Navbar: FC<INavbar> = ({ className }) => {
         </Typography>
       </Link>
       <div className={s.navbar__items}>
-        {ITEMS.map(i => (
-          <Link href={i.href} className={s.navbar__item} key={i.href}>
-            <i.icon />
-          </Link>
-        ))}
-        <div className={s.navbar__item}>
-          <ExitIcon />
-        </div>
+        {ITEMS.map((i, index) =>
+          i?.authorized ? (
+            !!isAuth && <NavbarItem href={i.href} icon={<i.icon />} key={index} className={s.navbar__item} />
+          ) : (
+            <NavbarItem href={i.href} icon={<i.icon />} key={index} className={s.navbar__item} />
+          )
+        )}
+        {!!isAuth && <NavbarItem onClick={onExit} icon={<ExitIcon />} className={s.navbar__item} />}
       </div>
     </div>
   )

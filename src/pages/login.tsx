@@ -10,7 +10,10 @@ import { LOGIN } from 'apollo/mutations/user'
 
 import { EMAIL_FIELD_VALIDATION, REQUIRED_FIELD_VALIDATION } from 'utils/formValidation/validatinoFields'
 
+import { cookieFields } from 'constants/index'
+
 import { AuthLayout, AuthLayoutType } from 'layouts/AuthLayout'
+
 import s from 'layouts/AuthLayout/index.module.sass'
 
 import { Input } from 'components/Input'
@@ -40,7 +43,7 @@ export default function Login() {
 
   useEffect(() => {
     if (loginData?.login) {
-      Cookie.set('userToken', loginData.login)
+      Cookie.set(cookieFields.authToken, loginData.login)
       isAuthVar(true)
     }
   }, [loginData])

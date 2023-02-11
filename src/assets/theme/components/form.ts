@@ -16,7 +16,7 @@ export const FormStyles = {
       color: colorGreyLight2
     },
     ':focus': {
-      outlineColor: colorGreyDark
+      borderColor: colorGreyDark
     }
   },
   dark: {
@@ -26,8 +26,8 @@ export const FormStyles = {
     '::placeholder': {
       color: colorGreyLight
     },
-    '::focus': {
-      color: colorGreyLight2
+    ':focus': {
+      borderColor: colorGreyLight2
     }
   }
 }

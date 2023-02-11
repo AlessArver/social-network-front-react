@@ -6,7 +6,8 @@ export const ButtonStyles = {
     color: colorGreyDark,
     borderColor: colorGreyDark,
     '&:hover': {
-      background: '#efefef'
+      background: colorGreyDark,
+      color: colorLight
     }
   },
   dark: {
@@ -14,7 +15,8 @@ export const ButtonStyles = {
     color: colorLight,
     borderColor: colorLight,
     '&:hover': {
-      background: '#efefef'
+      background: '#efefef',
+      color: colorGreyDark
     }
   }
 }

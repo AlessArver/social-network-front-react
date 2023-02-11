@@ -3,8 +3,9 @@ import { theme } from 'assets/theme'
 
 export enum ThemeEnum {
   'light' = 'light',
-  'dark' = 'dark'
+  'dark' = 'dark',
+  'custom' = 'custom'
 }
 
 export const currThemeVar = makeVar<ThemeEnum>(ThemeEnum.dark)
-export const themeVar = makeVar<typeof theme.light>(theme.light)
+export const themeVar = makeVar<typeof theme.light | typeof theme.dark>(theme.light)

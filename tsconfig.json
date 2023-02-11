@@ -27,6 +27,6 @@
     "apollo/*": ["apollo/*"],
     "utils/*": ["utils/*"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "index.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

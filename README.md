@@ -4,6 +4,7 @@
   <li>Add/Block/Remove friend</li>
   <li>Add/Remove posts</li>
   <li>Add realtime with socket.io</li>
+  <li>Add theme</li>
 </ul>
 
 <h3>What I'll do later:</h3>

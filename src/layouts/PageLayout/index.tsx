@@ -1,13 +1,14 @@
-import { useEffect, FC, ReactNode } from 'react'
+import { useEffect, FC, ReactNode, useState } from 'react'
 import { useReactiveVar } from '@apollo/client'
 import clsx from 'clsx'
 
-import { currThemeVar, ThemeEnum, themeVar } from 'apollo/variables/app'
+import { currThemeVar, isCustomThemeVar, ThemeEnum, themeVar } from 'apollo/variables/app'
 import { localstorageFields } from 'constants/index'
 
 import { theme as themeData } from 'assets/theme'
 
 import s from './index.module.sass'
+import { css } from '@emotion/react'
 
 export interface IPageLayout {
   children: ReactNode
@@ -15,38 +16,48 @@ export interface IPageLayout {
 export const PageLayout: FC<IPageLayout> = ({ children }) => {
   const currTheme = useReactiveVar(currThemeVar)
   const theme = useReactiveVar(themeVar)
+  const isCustomTheme = useReactiveVar(isCustomThemeVar)
+  const [themeLoading, setThemeeLoading] = useState(true)
 
   function handleChangeThemeToSystem() {
     window
       .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', e => currThemeVar(e.matches ? ThemeEnum.dark : ThemeEnum.light))
+      .addEventListener('change', e => themeVar(e.matches ? themeData.dark : themeData.light))
 
-    currThemeVar(window.matchMedia('(prefers-color-scheme: dark)').matches ? ThemeEnum.dark : ThemeEnum.light)
+    themeVar(window.matchMedia('(prefers-color-scheme: dark)').matches ? themeData.dark : themeData.light)
   }
 
   useEffect(() => {
     const newTheme = localStorage.getItem(localstorageFields.theme)
 
     if (newTheme) {
-      currThemeVar(ThemeEnum.custom)
+      isCustomThemeVar(true)
       themeVar(JSON.parse(newTheme))
     } else {
       handleChangeThemeToSystem()
-      themeVar(currTheme === ThemeEnum.light ? themeData.light : themeData.dark)
     }
+
+    setThemeeLoading(false)
 
     return () => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', () => {})
     }
-  }, [currTheme])
+  }, [isCustomTheme])
+
+  useEffect(() => {
+    console.log('theme.background', theme.background)
+  }, [theme])
 
   return (
     <div
-      style={{ background: theme.background, color: theme.fontColor }}
-      className={clsx(s.pageLayout, s[`pageLayout_${currTheme}`])}
+      className={s.pageLayout}
+      css={css`
+        background: ${theme.background};
+        color: ${theme.fontColor};
+      `}
     >
-      {children}
+      {!themeLoading && children}
     </div>
   )
 }

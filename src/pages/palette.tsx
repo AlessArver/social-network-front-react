@@ -2,27 +2,21 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { useReactiveVar } from '@apollo/client'
 import { css } from '@emotion/react'
 
-import { currThemeVar, ThemeEnum, themeVar } from 'apollo/variables/app'
+import { isCustomThemeVar, themeVar } from 'apollo/variables/app'
+
+import { localstorageFields } from 'constants/index'
 
 import { MainLayout } from 'layouts/MainLayout'
-import { FontTypeEnum, FontWeightEnum, Typography } from 'components/Typography'
 
-import s from 'styles/pages/palette.module.sass'
+import { FontTypeEnum, FontWeightEnum, Typography } from 'components/Typography'
 import { Input } from 'components/Input'
 import { Button } from 'components/Button'
-import { localstorageFields } from 'constants/index'
+
+import s from 'styles/pages/palette.module.sass'
 
 export default function Palette() {
   const theme = useReactiveVar(themeVar)
   const [inputVal, setInputVal] = useState('Background:')
-
-  useEffect(() => {
-    currThemeVar(ThemeEnum.custom)
-
-    return () => {
-      currThemeVar(ThemeEnum.dark)
-    }
-  }, [])
 
   const handleChangeNavbarColor = (e: ChangeEvent<HTMLInputElement>) => {
     themeVar({ ...theme, navbar: { ...theme.navbar, color: e.target.value } })
@@ -134,12 +128,12 @@ export default function Palette() {
   }
 
   const onResetStyles = () => {
-    currThemeVar(ThemeEnum.dark)
+    isCustomThemeVar(false)
     localStorage.removeItem(localstorageFields.theme)
   }
 
   const onSaveStyles = () => {
-    currThemeVar(ThemeEnum.dark)
+    isCustomThemeVar(true)
     localStorage.setItem(localstorageFields.theme, JSON.stringify(theme))
   }
 

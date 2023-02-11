@@ -18,8 +18,8 @@ export interface IMainLayout {
 export const MainLayout: FC<IMainLayout> = ({ children, asideChildren, childrenClassName }) => {
   return (
     <div className={s.mainLayout}>
-      <div className={s.mainLayout__navbarWrapper}>
-        <Navbar className={s.mainLayout__navbar} />
+      <div>
+        <Navbar />
       </div>
       <Card className={clsx(s.mainLayout__children, childrenClassName)} cardClassName={s.mainLayout__childrenCard}>
         {children}

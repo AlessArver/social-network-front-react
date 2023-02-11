@@ -26,7 +26,9 @@ export const AuthLayout: FC<IAuthLayout> = ({ children, onSubmit, type, loading 
 
   return (
     <div className={s.authLayout}>
-      <Navbar />
+      <div className={s.mainLayout__navbarWrapper}>
+        <Navbar />
+      </div>
       <div className={s.auth__cardWrapper}>
         <Card currTheme={currTheme}>
           <form onSubmit={onSubmit} className={s.authLayout__form}>

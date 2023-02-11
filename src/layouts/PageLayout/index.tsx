@@ -1,8 +1,7 @@
 import { useEffect, FC, ReactNode, useState } from 'react'
 import { useReactiveVar } from '@apollo/client'
-import clsx from 'clsx'
 
-import { currThemeVar, isCustomThemeVar, ThemeEnum, themeVar } from 'apollo/variables/app'
+import { currThemeVar, isCustomThemeVar, themeVar } from 'apollo/variables/app'
 import { localstorageFields } from 'constants/index'
 
 import { theme as themeData } from 'assets/theme'
@@ -44,10 +43,6 @@ export const PageLayout: FC<IPageLayout> = ({ children }) => {
       window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', () => {})
     }
   }, [isCustomTheme])
-
-  useEffect(() => {
-    console.log('theme.background', theme.background)
-  }, [theme])
 
   return (
     <div

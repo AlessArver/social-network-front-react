@@ -4,8 +4,8 @@ import { MdKeyboardBackspace } from 'react-icons/md'
 
 import { MainLayout } from 'layouts/MainLayout'
 
-import { Input } from 'components/Input'
-import { Button } from 'components/Button'
+import { Input } from 'components/ui/Input'
+import { Button } from 'components/ui/Button'
 import { IMessageItem, Message } from 'components/pages/dialog/Message'
 
 import s from 'styles/pages/dialog.module.sass'

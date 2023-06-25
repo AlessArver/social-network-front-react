@@ -8,9 +8,9 @@ import { localstorageFields } from 'constants/index'
 
 import { MainLayout } from 'layouts/MainLayout'
 
-import { FontTypeEnum, FontWeightEnum, Typography } from 'components/Typography'
-import { Input } from 'components/Input'
-import { Button } from 'components/Button'
+import { FontTypeEnum, FontWeightEnum, Typography } from 'components/ui/Typography'
+import { Input } from 'components/ui/Input'
+import { Button } from 'components/ui/Button'
 
 import s from 'styles/pages/palette.module.sass'
 

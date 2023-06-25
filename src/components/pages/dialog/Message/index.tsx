@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { MdMoreHoriz } from 'react-icons/md'
 import clsx from 'clsx'
 
-import { Dropdown } from 'components/Dropdown'
+import { Dropdown } from 'components/ui/Dropdown'
 
 import s from './index.module.sass'
 import { useToggle } from 'hooks/useToggle'

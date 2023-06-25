@@ -5,7 +5,7 @@ import { css } from '@emotion/react'
 
 import { ThemeEnum, themeVar } from 'apollo/variables/app'
 
-import { Shadow } from 'components/Shadow'
+import { Shadow } from 'components/ui/Shadow'
 
 import s from './index.module.sass'
 

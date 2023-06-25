@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import Link from 'next/link'
 import Router from 'next/router'
 import { css } from '@emotion/react'
 import clsx from 'clsx'
@@ -18,8 +17,8 @@ import SettingsIcon from 'assets/icons/settings.svg'
 import PaletteIcon from 'assets/icons/palette.svg'
 import ExitIcon from 'assets/icons/exit.svg'
 
-import { FontTypeEnum, FontWeightEnum, Typography } from 'components/Typography'
-import { NavbarItem } from './components/NavbarItem'
+import { Logo } from 'components/Logo'
+import { NavbarItem } from 'components/NavbarItem'
 
 import s from './index.module.sass'
 
@@ -51,11 +50,7 @@ export const Navbar: FC<INavbar> = ({ className }) => {
         ${theme.navbar}
       `}
     >
-      <Link href='/' className={s.navbar__logo}>
-        <Typography fontType={FontTypeEnum.xs} fontWeight={FontWeightEnum.bold}>
-          Social Network
-        </Typography>
-      </Link>
+      <Logo className={s.navbar__logo} />
       <div className={s.navbar__items}>
         {ITEMS.map((i, index) =>
           i?.authorized ? (

@@ -1,56 +1,37 @@
-import { HTMLInputTypeAttribute, useEffect } from 'react'
+import { useEffect } from 'react'
 import Router from 'next/router'
 import { useFormik } from 'formik'
 import { useMutation, useReactiveVar } from '@apollo/client'
-import * as Yup from 'yup'
 
-import { CREATE_USER } from 'apollo/mutations/user'
+import { CREATE_USER } from 'apollo/mutations/user/user'
 import { isAuthVar } from 'apollo/variables/user'
 
-import {
-  EMAIL_FIELD_VALIDATION,
-  PASSWORD_FIELD_VALIDATION,
-  REQUIRED_FIELD_VALIDATION
-} from 'utils/formValidation/validatinoFields'
+import { LOGIN_PAGE, PROFILE_PAGE } from 'constants/routes'
 
 import { AuthLayout, AuthLayoutType } from 'layouts/AuthLayout'
 
-import { Input } from 'components/Input'
+import { Input } from 'components/ui/Input'
+
+import { registerForm } from 'schemas/register/form'
+import { registerInitialValues } from 'schemas/register/initialValues'
+import { registerValidationSchema } from 'schemas/register/validationSchema'
 
 import s from 'layouts/AuthLayout/index.module.sass'
-
-export enum RegisterValues {
-  first_name = 'first_name',
-  last_name = 'last_name',
-  email = 'email',
-  password = 'password'
-}
-const initialValues = {
-  [RegisterValues.first_name]: '',
-  [RegisterValues.last_name]: '',
-  [RegisterValues.email]: '',
-  [RegisterValues.password]: ''
-}
-const validationSchema = Yup.object().shape({
-  [RegisterValues.first_name]: REQUIRED_FIELD_VALIDATION,
-  [RegisterValues.last_name]: REQUIRED_FIELD_VALIDATION,
-  [RegisterValues.email]: EMAIL_FIELD_VALIDATION,
-  [RegisterValues.password]: PASSWORD_FIELD_VALIDATION
-})
 
 export default function Register() {
   const [_createUserMutation, { loading }] = useMutation(CREATE_USER)
   const isAuth = useReactiveVar(isAuthVar)
+  const formFields = registerForm
 
   useEffect(() => {
     if (isAuth) {
-      Router.push('/profile')
+      Router.push(PROFILE_PAGE)
     }
   }, [isAuth])
 
   const formik = useFormik({
-    initialValues,
-    validationSchema,
+    initialValues: registerInitialValues,
+    validationSchema: registerValidationSchema,
     onSubmit: (values, { resetForm }) => {
       _createUserMutation({
         variables: {
@@ -58,54 +39,29 @@ export default function Register() {
         }
       }).then(() => {
         resetForm()
-        Router.push('/login')
+        Router.push(LOGIN_PAGE)
       })
     }
   })
 
-  const renderInput = ({
-    name,
-    placeholder,
-    type
-  }: {
-    placeholder: string
-    name: RegisterValues
-    type?: HTMLInputTypeAttribute
-  }) => (
-    <Input
-      onChange={formik.handleChange}
-      name={name}
-      value={formik.values[name]}
-      placeholder={placeholder}
-      fullWidth
-      className={s.authLayout__input}
-      type={type}
-      touched={formik.touched[name]}
-      danger={!!formik.errors[name]}
-      smallText={formik.errors[name]}
-    />
-  )
-
   return (
     <div>
       <AuthLayout loading={loading} onSubmit={formik.handleSubmit} type={AuthLayoutType.register}>
-        {renderInput({
-          name: RegisterValues.first_name,
-          placeholder: 'First name'
-        })}
-        {renderInput({
-          name: RegisterValues.last_name,
-          placeholder: 'Last name'
-        })}
-        {renderInput({
-          name: RegisterValues.email,
-          placeholder: 'Email'
-        })}
-        {renderInput({
-          name: RegisterValues.password,
-          placeholder: 'Password',
-          type: 'password'
-        })}
+        {Object.entries(formFields).map(([_, { name, placeholder, type }]) => (
+          <Input
+            key={name}
+            onChange={formik.handleChange}
+            name={name}
+            value={formik.values[name]}
+            placeholder={placeholder}
+            fullWidth
+            type={type}
+            className={s.authLayout__input}
+            touched={formik.touched[name]}
+            danger={!!formik.errors[name]}
+            smallText={formik.errors[name]}
+          />
+        ))}
       </AuthLayout>
     </div>
   )

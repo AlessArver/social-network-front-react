@@ -1,43 +1,33 @@
-import { HTMLInputTypeAttribute, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { useMutation, useReactiveVar } from '@apollo/client'
 import Router from 'next/router'
 import Cookie from 'js-cookie'
 
 import { isAuthVar } from 'apollo/variables/user'
-import { LOGIN } from 'apollo/mutations/user'
-
-import { EMAIL_FIELD_VALIDATION, REQUIRED_FIELD_VALIDATION } from 'utils/formValidation/validatinoFields'
+import { LOGIN } from 'apollo/mutations/user/user'
 
 import { cookieFields } from 'constants/index'
+import { PROFILE_PAGE } from 'constants/routes'
 
 import { AuthLayout, AuthLayoutType } from 'layouts/AuthLayout'
 
+import { Input } from 'components/ui/Input'
+
 import s from 'layouts/AuthLayout/index.module.sass'
 
-import { Input } from 'components/Input'
-
-export enum LoginValues {
-  email = 'email',
-  password = 'password'
-}
-const initialValues = {
-  [LoginValues.email]: '',
-  [LoginValues.password]: ''
-}
-const validationSchema = Yup.object().shape({
-  [LoginValues.email]: EMAIL_FIELD_VALIDATION,
-  [LoginValues.password]: REQUIRED_FIELD_VALIDATION
-})
+import { loginForm } from 'schemas/login/form'
+import { loginInitialValues } from 'schemas/login/initialValues'
+import { loginValidationSchema } from 'schemas/login/validationSchema'
 
 export default function Login() {
   const [_loginUserMutation, { loading, data: loginData }] = useMutation(LOGIN)
   const isAuth = useReactiveVar(isAuthVar)
+  const { email, password } = loginForm
 
   useEffect(() => {
     if (isAuth) {
-      Router.push('/profile')
+      Router.push(PROFILE_PAGE)
     }
   }, [isAuth])
 
@@ -49,8 +39,8 @@ export default function Login() {
   }, [loginData])
 
   const formik = useFormik({
-    initialValues,
-    validationSchema,
+    initialValues: loginInitialValues,
+    validationSchema: loginValidationSchema,
     onSubmit: (values, { resetForm }) => {
       _loginUserMutation({
         variables: {
@@ -60,41 +50,32 @@ export default function Login() {
     }
   })
 
-  const renderInput = ({
-    name,
-    placeholder,
-    type
-  }: {
-    placeholder: string
-    name: LoginValues
-    type?: HTMLInputTypeAttribute
-  }) => (
-    <Input
-      onChange={formik.handleChange}
-      name={name}
-      value={formik.values[name]}
-      placeholder={placeholder}
-      fullWidth
-      className={s.authLayout__input}
-      type={type}
-      touched={formik.touched[name]}
-      danger={!!formik.errors[name]}
-      smallText={formik.errors[name]}
-    />
-  )
-
   return (
     <div>
       <AuthLayout loading={loading} onSubmit={formik.handleSubmit} type={AuthLayoutType.login}>
-        {renderInput({
-          name: LoginValues.email,
-          placeholder: 'Email'
-        })}
-        {renderInput({
-          name: LoginValues.password,
-          placeholder: 'Password',
-          type: 'password'
-        })}
+        <Input
+          onChange={formik.handleChange}
+          name={email.name}
+          value={formik.values[email.name]}
+          placeholder={email.placeholder}
+          fullWidth
+          className={s.authLayout__input}
+          touched={formik.touched[email.name]}
+          danger={!!formik.errors[email.name]}
+          smallText={formik.errors[email.name]}
+        />
+        <Input
+          onChange={formik.handleChange}
+          name={password.name}
+          value={formik.values[password.name]}
+          placeholder={password.placeholder}
+          type={password.type}
+          fullWidth
+          className={s.authLayout__input}
+          touched={formik.touched[password.name]}
+          danger={!!formik.errors[password.name]}
+          smallText={formik.errors[password.name]}
+        />
       </AuthLayout>
     </div>
   )

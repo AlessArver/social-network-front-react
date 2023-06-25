@@ -1,6 +1,6 @@
 import { IUserByIdsQueryItem } from 'apollo/queries/user'
-import { Avatar } from 'components/Avatar'
-import { ButtonSize, Button } from 'components/Button'
+import { Avatar } from 'components/ui/Avatar'
+import { ButtonSize, Button } from 'components/ui/Button'
 import { FC, memo } from 'react'
 
 import s from './index.module.sass'

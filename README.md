@@ -1,3 +1,9 @@
+<h3>What I'm doing:</h3>
+<ul>
+  <li>Refactor code</li>
+  <li>Change architecture</li>
+</ul>
+
 <h3>Realized:</h3>
 <ul>
   <li>Authorization</li>

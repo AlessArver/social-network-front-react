@@ -20,3 +20,7 @@
   <li>yarn or npm i</li>
   <li>yarn dev</li>
 </ul>
+
+<ul>
+  <li>Design: https://www.figma.com/file/I0x47teXaCgirhsGpqbmuj/Untitled?type=design&node-id=35%3A828&mode=design&t=karLf2VOOTrAmYbk-1</li>
+</ul>

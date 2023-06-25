@@ -1,31 +1,30 @@
-@import 'styles/typography'
-@import 'styles/variables'
-    
 .navbar
-    width: 100%
-    height: $navbar-height
     display: flex
-    justify-content: center
     align-items: center
 
-    @media screen and (max-width: 1200px)
-        height: 80px
-
 .navbar__logo
-    margin-right: 25px
-    @include xs-bold
-    text-decoration: none
-    color: inherit
+    margin-right: 20px
 
 .navbar__items
     display: flex
     align-items: center
 
 .navbar__item
-    margin-right: 20px
+    margin-right: 15px
+    text-decoration: none
+    font-weight: 400
+    font-size: 16px
+    line-height: 19px
+    transition: all 0.2s
+    text-transform: capitalize
+    color: #000
+    cursor: pointer
+
+    &:hover
+        font-weight: 600
 
     &:last-child
         margin-right: 0
 
-    &:hover
-        transform: scale(1.2)
+.navbar__item_active
+    font-weight: 600

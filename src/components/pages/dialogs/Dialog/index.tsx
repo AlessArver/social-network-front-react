@@ -4,8 +4,8 @@ import clsx from 'clsx'
 
 import { useToggle } from 'hooks/useToggle'
 
-import { Avatar } from 'components/Avatar'
-import { Dropdown } from 'components/Dropdown'
+import { Avatar } from 'components/ui/Avatar'
+import { Dropdown } from 'components/ui/Dropdown'
 
 import s from './index.module.sass'
 import { MdMoreHoriz } from 'react-icons/md'
@@ -38,7 +38,7 @@ export const Dialog: FC<IDialog> = ({ id, fullName, text, className }) => {
           <div className={s.dialog_fullName}>{fullName}</div>
         </div>
         <Dropdown
-          childrenItems={[{ onClick: () => '', text: 'Remove' }]}
+          childrenItems={[{ onClick: () => '', children: 'Remove' }]}
           visible={showOptions.value}
           onOpen={showOptions.set}
           onClose={showOptions.unset}

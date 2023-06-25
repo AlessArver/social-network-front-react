@@ -5,7 +5,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 import { FRIEND, FriendStatus, IFriend } from 'apollo/queries/friend'
 import { IUser } from 'apollo/queries/user'
 
-import { Button, ButtonSize, ButtonType } from 'components/Button'
+import { Button, ButtonSize, ButtonType } from 'components/ui/Button'
 
 import s from './index.module.sass'
 import { CREATE_FRIEND, REMOVE_FRIEND, UPDATE_FRIEND } from 'apollo/mutations/friend'

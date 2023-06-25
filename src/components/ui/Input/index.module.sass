@@ -1,0 +1,42 @@
+.input
+    input[type="text"],  textarea 
+        background-color: transparent
+
+.input_fullWidth
+    width: 100%
+
+.input_danger
+    .input__form
+        border-color: red
+
+.input__formWrapper
+    padding: 0 15px
+    width: calc(100% - 15px * 2)
+    height: 40px
+    display: flex
+    align-items: center
+    border: 1px solid
+    border-radius: 20px
+    overflow: hidden
+
+.input__form
+    width: 100%
+    height: 100%
+    font-weight: 400
+    font-size: 14px
+    line-height: 17px
+    border: none
+
+    &:focus
+        background-color: transparent
+        outline: none
+
+.input__smallText
+    margin-left: 12px
+    display: none
+    font-size: 14px
+    text-align: left
+    color: red
+
+.input__smallText_show
+    display: block

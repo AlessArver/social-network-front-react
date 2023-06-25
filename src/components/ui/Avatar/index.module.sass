@@ -1,0 +1,34 @@
+@import 'styles/colors'
+
+.avatar
+    position: relative
+
+.avatar_online
+
+    .avatar__wrapper
+        border: 2px solid $color-green
+
+    .avatar__status
+        background: $color-green
+        box-shadow: 0px 0px 7px #6AE257
+
+.avatar__wrapper
+    border-radius: 100px
+    overflow: hidden
+    background: #D9D9D9
+    border: 2px solid $color-grey-dark
+
+.avatar__image
+    width: 100%
+    height: 100%
+    object-fit: cover
+    object-position: center
+
+.avatar__status
+    position: absolute
+    top: 22px
+    right: 0
+    width: 25px
+    height: 25px
+    background: gray
+    border-radius: 50px

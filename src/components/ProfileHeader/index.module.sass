@@ -1,0 +1,52 @@
+.profileHeader
+    margin-bottom: 50px
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+.profileHeader__column
+    display: flex
+    align-items: center
+    
+.profileHeader__avatar
+    @media screen and ( max-width:  768px)
+        width: 70px !important
+        height: 70px !important
+
+
+.profileHeader__avatarWrapper
+    margin-right: 40px
+    position: relative
+    cursor: pointer
+    border-radius: 100px
+
+.profileHeader__avatarInputWrapper
+    width: 100%
+    height: 100%
+    opacity: 0
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 1
+
+.profileHeader__avatarInput
+    width: 100%
+    height: 100%
+
+    &::-webkit-file-upload-button 
+        cursor: pointer
+
+.profileHeader__fullName
+    font-weight: 500
+    font-size: 16px
+    line-height: 19px
+        
+.profileHeader__actions
+    margin-bottom: 10px
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-gap: 10px
+
+.profile_showMore
+    cursor: pointer
+

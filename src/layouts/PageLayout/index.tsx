@@ -13,7 +13,6 @@ export interface IPageLayout {
   children: ReactNode
 }
 export const PageLayout: FC<IPageLayout> = ({ children }) => {
-  const currTheme = useReactiveVar(currThemeVar)
   const theme = useReactiveVar(themeVar)
   const isCustomTheme = useReactiveVar(isCustomThemeVar)
   const [themeLoading, setThemeeLoading] = useState(true)

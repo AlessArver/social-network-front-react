@@ -6,8 +6,8 @@ import { IPost } from 'apollo/queries/post'
 
 import { useToggle } from 'hooks/useToggle'
 
-import { Avatar } from 'components/Avatar'
-import { Dropdown } from 'components/Dropdown'
+import { Avatar } from 'components/ui/Avatar'
+import { Dropdown } from 'components/ui/Dropdown'
 
 import s from './index.module.sass'
 
@@ -35,7 +35,7 @@ export const Post: FC<IPostProps> = ({ meId, id, userId, avatar, fullName, text,
           <Dropdown
             childrenItems={[
               // { onClick: () => {}, text: "Edit" },
-              { onClick: onRemove, text: 'Remove' }
+              { onClick: onRemove, children: 'Remove' }
             ]}
             visible={showOptions.value}
             onOpen={showOptions.set}

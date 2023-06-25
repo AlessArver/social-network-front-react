@@ -4,6 +4,8 @@ import { useReactiveVar } from '@apollo/client'
 
 import { meLoadingVar, meVar } from 'apollo/variables/user'
 
+import { LOGIN_PAGE, PROFILE_PAGE } from 'constants/routes'
+
 export default function ProfileMe() {
   const me = useReactiveVar(meVar)
   const meLoading = useReactiveVar(meLoadingVar)
@@ -11,12 +13,12 @@ export default function ProfileMe() {
   useEffect(() => {
     if (!meLoading) {
       if (me) {
-        Router.push(`/profile/${me.id}`)
+        Router.push(`${PROFILE_PAGE}/${me.id}`)
       } else {
-        Router.push('/login')
+        Router.push(LOGIN_PAGE)
       }
     }
   }, [me, meLoading])
 
-  return <div></div>
+  return <div>Loading . . .</div>
 }

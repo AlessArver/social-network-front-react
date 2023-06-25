@@ -1,21 +1,20 @@
+import { useCallback, useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+import { useLazyQuery, useMutation } from '@apollo/client'
+
 import { MainLayout } from 'layouts/MainLayout'
 
-import { Navbar } from 'components/app/Navbar'
+import { FRIEND_TYPES } from 'constants/friends'
+
+import { REMOVE_FRIEND, UPDATE_FRIEND } from 'apollo/mutations/friend'
+import { FRIEND, FRIENDS, FriendStatus, IFriend } from 'apollo/queries/friend'
+import { IUserByIdsQuery, USERS_BY_IDS } from 'apollo/queries/user'
+
+import { FriendItem } from 'components/pages/friends/FriendItem'
+import { Navbar } from 'components/Navbar'
 
 import s from 'styles/pages/friends.module.sass'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { FRIEND, FRIENDS, FriendStatus, IFriend } from 'apollo/queries/friend'
-import { useRouter } from 'next/router'
-import { IUserByIdsQuery, USERS_BY_IDS } from 'apollo/queries/user'
-import { useCallback, useEffect } from 'react'
-import { FriendItem } from 'components/pages/friends/FriendItem'
-import { REMOVE_FRIEND, UPDATE_FRIEND } from 'apollo/mutations/friend'
-
-const FRIEND_TYPES = [
-  { text: 'Друзья', slug: 'added' },
-  { text: 'В ожидании', slug: 'pending' },
-  { text: 'Черный список', slug: 'block' }
-]
 
 export default function Friends() {
   const router = useRouter()

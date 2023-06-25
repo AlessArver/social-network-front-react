@@ -4,12 +4,14 @@ import { useReactiveVar } from '@apollo/client'
 
 import { currThemeVar } from 'apollo/variables/app'
 
-import { Button } from 'components/Button'
+import { LOGIN_PAGE, REGISTER_PAGE, RESET_PASSWORD_PAGE } from 'constants/routes'
+
+import { Button } from 'components/ui/Button'
 import { Card } from 'components/Card'
+import { Navbar } from 'components/Navbar'
+import { FontTypeEnum, FontWeightEnum, Typography } from 'components/ui/Typography'
 
 import s from './index.module.sass'
-import { Navbar } from 'components/Navbar'
-import { FontTypeEnum, FontWeightEnum, Typography } from 'components/Typography'
 
 export enum AuthLayoutType {
   register = 'register',
@@ -39,8 +41,11 @@ export const AuthLayout: FC<IAuthLayout> = ({ children, onSubmit, type, loading 
             <Button htmlType='submit' disabled={loading}>
               Enter
             </Button>
-            <Link href={type === AuthLayoutType.register ? '/login' : '/register'} className={s.authLayout__link}>
+            <Link href={type === AuthLayoutType.register ? LOGIN_PAGE : REGISTER_PAGE} className={s.authLayout__link}>
               {type === AuthLayoutType.register ? 'login' : 'register'}
+            </Link>
+            <Link href={RESET_PASSWORD_PAGE} className={s.authLayout__link}>
+              reset password
             </Link>
           </form>
         </Card>

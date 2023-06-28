@@ -15,6 +15,7 @@ import { Input } from 'components/ui/Input'
 import { Typography, FontTypeEnum, FontWeightEnum } from 'components/ui/Typography'
 
 import s from './index.module.sass'
+import clsx from 'clsx'
 
 export interface IProfileHeader {
   user: IUser | null
@@ -38,8 +39,9 @@ export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading,
           <Input
             onChange={handleChangeAvatar}
             type='file'
-            className={s.profileHeader__avatarInputWrapper}
-            inputClassName={s.profileHeader__avatarInput}
+            className={s.profileHeader__avatarInput}
+            inputWrapperClassName={s.profileHeader__avatarInputWrapper}
+            inputClassName={s.profileHeader__avatarInputForm}
           />
           <Avatar
             size={150}
@@ -59,29 +61,19 @@ export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading,
           >
             {user?.first_name || me?.first_name} {user?.last_name || me?.last_name}
           </Typography>
-          {/* TODO: need create new component for actions */}
-          {me ? (
-            me?.id !== user?.id && (
-              <div className={s.profileHeader__actions}>
-                <Button>Message</Button>
-                <div />
-                <Button size={ButtonSize.sm}>Remove</Button>
-                <Button size={ButtonSize.sm}>Block</Button>
-              </div>
-            )
-          ) : (
-            <div className={s.profileHeader__actions}>
-              <Button>Message</Button>
-              <div />
-              <Button size={ButtonSize.sm}>Remove</Button>
-              <Button size={ButtonSize.sm}>Block</Button>
-            </div>
-          )}
-          {window.innerWidth < 700 && (
-            <Typography fontType={FontTypeEnum.xs} fontWeight={FontWeightEnum.regular} className={s.profile_showMore}>
-              show more
-            </Typography>
-          )}
+          <div className={clsx(s.profileHeader__actions, { [s.profileHeader__actions_show]: user && me })}>
+            <Button>Message</Button>
+            <div />
+            <Button size={ButtonSize.sm}>Remove</Button>
+            <Button size={ButtonSize.sm}>Block</Button>
+          </div>
+          <Typography
+            fontType={FontTypeEnum.xs}
+            fontWeight={FontWeightEnum.regular}
+            className={clsx(s.profile_showMore, { [s.profile_showMore_show]: window.innerWidth < 700 })}
+          >
+            show more
+          </Typography>
         </div>
       </div>
       {!!user && !!me && <AddFriend me={me} user={user} />}

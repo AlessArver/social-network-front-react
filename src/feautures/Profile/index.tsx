@@ -33,9 +33,7 @@ export default function Profile() {
       handleGetUser(`${id}`, res => setUser(res))
       // TODO: create constant for socket events
       socket.on(`user-${id}`, res => {
-        if (res) {
-          setUser(res)
-        }
+        if (res) setUser(res)
       })
     }
 

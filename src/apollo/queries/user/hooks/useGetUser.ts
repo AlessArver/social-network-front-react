@@ -9,8 +9,11 @@ export const useGetUser = () => {
     getUser({
       variables: { id },
       onCompleted: data => {
-        if (onCompleted) onCompleted(data.user)
+        if (onCompleted && data?.user) onCompleted(data.user)
       }
+    })
+    getUser({
+      variables: { id }
     })
   }
 

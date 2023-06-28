@@ -28,19 +28,19 @@ export default function Profile() {
   const { handleUpdateUser, loading: updateUserLoading } = useUpdateUser()
   const [user, setUser] = useState<IUser | null>(null)
 
-  useEffect(() => {
-    if (id) {
-      handleGetUser(`${id}`, res => setUser(res))
-      // TODO: create constant for socket events
-      socket.on(`user-${id}`, res => {
-        if (res) setUser(res)
-      })
-    }
+  // useEffect(() => {
+  //   if (id) {
+  //     handleGetUser(`${id}`, res => setUser(res))
+  //     // TODO: create constant for socket events
+  //     socket.on(`user-${id}`, res => {
+  //       if (res) setUser(res)
+  //     })
+  //   }
 
-    return () => {
-      socket.off(`user-${id}`)
-    }
-  }, [id])
+  //   return () => {
+  //     socket.off(`user-${id}`)
+  //   }
+  // }, [id])
 
   useEffect(() => {
     if (user?.id === me?.id) {

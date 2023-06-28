@@ -1,12 +1,10 @@
-import { FC, FormEventHandler, ReactNode, useEffect, useState } from 'react'
-import Router from 'next/router'
+import { FC, FormEventHandler, ReactNode } from 'react'
 import Link from 'next/link'
 import { useReactiveVar } from '@apollo/client'
 
 import { currThemeVar } from 'apollo/variables/app'
-import { isAuthVar } from 'apollo/variables/user'
 
-import { LOGIN_PAGE, PROFILE_PAGE, REGISTER_PAGE, RESET_PASSWORD_PAGE } from 'constants/routes'
+import { LOGIN_PAGE, REGISTER_PAGE, RESET_PASSWORD_PAGE } from 'constants/routes'
 
 import { Button } from 'components/ui/Button'
 import { Card } from 'components/Card'
@@ -27,14 +25,6 @@ export interface IAuthLayout {
 }
 export const AuthLayout: FC<IAuthLayout> = ({ children, onSubmit, type, loading }) => {
   const currTheme = useReactiveVar(currThemeVar)
-  const isAuth = useReactiveVar(isAuthVar)
-
-  // TODO переписать
-  useEffect(() => {
-    if (isAuth) {
-      Router.push(PROFILE_PAGE)
-    }
-  }, [isAuth])
 
   return (
     <div className={s.authLayout}>

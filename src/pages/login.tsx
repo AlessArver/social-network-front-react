@@ -22,8 +22,7 @@ import { loginInitialValues } from 'schemas/login/initialValues'
 import { loginValidationSchema } from 'schemas/login/validationSchema'
 
 export default function Login() {
-  const { handleLogin } = useLogin()
-  const [_loginUserMutation, { loading, data: loginData }] = useMutation(LOGIN)
+  const { handleLogin, loading } = useLogin()
   const { email, password } = loginForm
 
   const formik = useFormik({
@@ -32,7 +31,7 @@ export default function Login() {
     onSubmit: (values, { resetForm }) => {
       handleLogin({ ...values }, res => {
         if (res) {
-          Cookie.set(cookieFields.authToken, loginData.login)
+          Cookie.set(cookieFields.authToken, res)
           isAuthVar(true)
           Router.push(PROFILE_PAGE)
         }

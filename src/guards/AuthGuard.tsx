@@ -3,7 +3,7 @@ import Router from 'next/router'
 import { useLazyQuery, useReactiveVar } from '@apollo/client'
 
 import { isAuthVar, meLoadingVar, meVar } from 'apollo/variables/user'
-import { ME } from 'apollo/queries/user'
+import { ME } from 'apollo/queries/user/user'
 import { socket } from 'utils/socket/socket'
 
 export const AuthGuard = ({ children, requiredAuth }: { children: JSX.Element; requiredAuth?: boolean }) => {

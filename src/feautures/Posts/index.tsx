@@ -8,16 +8,16 @@ import { socket } from 'utils/socket/socket'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { REMOVE_POST } from 'apollo/mutations/post'
 import { getDateTime } from 'utils/getDateTime'
-import { IUser } from 'apollo/queries/user'
+import { IUser } from 'apollo/queries/user/user'
 
 export enum CreatePostValues {
   text = 'text'
 }
 
 export interface IPosts {
-  id: string
-  user: IUser
-  me: IUser
+  id: string | string[] | undefined
+  user: IUser | null
+  me: IUser | null
 }
 export const Posts: FC<IPosts> = ({ id, me, user }) => {
   const [posts, setPosts] = useState<IPost[]>([])
@@ -47,11 +47,9 @@ export const Posts: FC<IPosts> = ({ id, me, user }) => {
   }, [])
 
   function handleFetchPosts() {
-    if (id) {
-      getPosts({
-        variables: { userId: id }
-      })
-    }
+    getPosts({
+      variables: { userId: id || me?.id }
+    })
   }
 
   const onRemovePost = (postId: string) => {
@@ -79,9 +77,9 @@ export const Posts: FC<IPosts> = ({ id, me, user }) => {
           <Post
             key={p.id}
             {...p}
-            meId={me.id}
-            fullName={`${user.first_name} ${user.last_name}`}
-            avatar={user.avatar}
+            meId={me?.id}
+            fullName={`${user?.first_name || me?.first_name} ${user?.last_name || me?.last_name}`}
+            avatar={user?.avatar || me?.avatar}
             handleRemovePost={onRemovePost}
           />
         ))}

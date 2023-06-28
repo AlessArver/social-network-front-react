@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 
 import { themeVar } from 'apollo/variables/app'
 import { IUpdateUserRequest } from 'apollo/mutations/user/types'
-import { IUser } from 'apollo/queries/user'
+import { IUser } from 'apollo/queries/user/user'
 
 import { outlineFont } from 'assets/theme/styles'
 
@@ -19,9 +19,10 @@ import s from './index.module.sass'
 export interface IProfileHeader {
   user: IUser | null
   me: IUser | null
+  updateUserLoading: boolean
   updateUser: (data: Omit<Partial<IUpdateUserRequest>, 'id'>) => void
 }
-export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUser }) => {
+export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading, updateUser }) => {
   const theme = useReactiveVar(themeVar)
 
   const handleChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {

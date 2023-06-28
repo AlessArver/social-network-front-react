@@ -1,10 +1,9 @@
 import { registerForm } from './form'
-
-const { first_name, last_name, email, password } = registerForm
+import { RegisterFields } from './types'
 
 export const registerInitialValues = {
-  [first_name.name]: '',
-  [last_name.name]: '',
-  [email.name]: '',
-  [password.name]: ''
+  [RegisterFields.first_name]: '',
+  [RegisterFields.last_name]: '',
+  [RegisterFields.email]: '',
+  [RegisterFields.password]: ''
 }

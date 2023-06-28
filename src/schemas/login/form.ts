@@ -1,11 +1,13 @@
+import { LoginFields } from './types'
+
 export const loginForm = {
-  email: {
-    name: 'email',
+  [LoginFields.email]: {
+    name: LoginFields.email,
     placeholder: 'Email',
     errorMsg: 'Enter email'
   },
-  password: {
-    name: 'password',
+  [LoginFields.password]: {
+    name: LoginFields.password,
     type: 'password',
     placeholder: '********',
     errorMsg: 'Enter password'

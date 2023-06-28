@@ -3,7 +3,7 @@ import { FC, memo, useEffect } from 'react'
 import clsx from 'clsx'
 import { useLazyQuery } from '@apollo/client'
 
-import { IUser, USERS_BY_IDS } from 'apollo/queries/user'
+import { IUser, USERS_BY_IDS } from 'apollo/queries/user/user'
 import { FRIENDS, IFriend } from 'apollo/queries/friend'
 
 import { MAX_FRIENDS_COUNT } from 'constants/friends'

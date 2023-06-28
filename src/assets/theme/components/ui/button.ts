@@ -1,4 +1,4 @@
-import { colorDarkOpacity, colorGreyDark, colorLight, colorLightOpacity } from '../colors'
+import { colorDarkOpacity, colorGreyDark, colorLight, colorLightOpacity } from '../../colors'
 
 export const ButtonStyles = {
   light: {

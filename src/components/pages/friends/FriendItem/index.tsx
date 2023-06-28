@@ -1,4 +1,4 @@
-import { IUserByIdsQueryItem } from 'apollo/queries/user'
+import { IUserByIdsQueryItem } from 'apollo/queries/user/user'
 import { Avatar } from 'components/ui/Avatar'
 import { ButtonSize, Button } from 'components/ui/Button'
 import { FC, memo } from 'react'

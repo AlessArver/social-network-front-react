@@ -1,10 +1,11 @@
 import { ChangeEventHandler, FC, HTMLInputTypeAttribute, ReactNode } from 'react'
+import { useReactiveVar } from '@apollo/client'
 import clsx from 'clsx'
+import { css } from '@emotion/react'
+
+import { themeVar } from 'apollo/variables/app'
 
 import s from './index.module.sass'
-import { useReactiveVar } from '@apollo/client'
-import { themeVar } from 'apollo/variables/app'
-import { css } from '@emotion/react'
 
 export interface IInput {
   name?: string
@@ -19,6 +20,7 @@ export interface IInput {
   leftIcon?: ReactNode
   rightIcon?: ReactNode
   className?: string
+  inputWrapperClassName?: string
   inputClassName?: string
 }
 export const Input: FC<IInput> = ({
@@ -34,6 +36,7 @@ export const Input: FC<IInput> = ({
   leftIcon,
   rightIcon,
   className,
+  inputWrapperClassName,
   inputClassName
 }) => {
   const theme = useReactiveVar(themeVar)
@@ -49,7 +52,7 @@ export const Input: FC<IInput> = ({
         className
       )}
     >
-      <div className={s.input__formWrapper}>
+      <div className={clsx(s.input__formWrapper, inputWrapperClassName)}>
         {!!leftIcon && <div>{leftIcon}</div>}
         <input
           onChange={onChange}

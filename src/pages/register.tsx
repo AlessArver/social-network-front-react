@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
 import Router from 'next/router'
 import { useFormik } from 'formik'
 import { useMutation, useReactiveVar } from '@apollo/client'
 
 import { CREATE_USER } from 'apollo/mutations/user/user'
 import { isAuthVar } from 'apollo/variables/user'
+import { useRegister } from 'apollo/mutations/user/hooks/useRegister'
 
-import { LOGIN_PAGE, PROFILE_PAGE } from 'constants/routes'
+import { LOGIN_PAGE } from 'constants/routes'
 
 import { AuthLayout, AuthLayoutType } from 'layouts/AuthLayout'
 
@@ -19,25 +19,15 @@ import { registerValidationSchema } from 'schemas/register/validationSchema'
 import s from 'layouts/AuthLayout/index.module.sass'
 
 export default function Register() {
+  const { handleRegister } = useRegister()
   const [_createUserMutation, { loading }] = useMutation(CREATE_USER)
-  const isAuth = useReactiveVar(isAuthVar)
   const formFields = registerForm
-
-  useEffect(() => {
-    if (isAuth) {
-      Router.push(PROFILE_PAGE)
-    }
-  }, [isAuth])
 
   const formik = useFormik({
     initialValues: registerInitialValues,
     validationSchema: registerValidationSchema,
     onSubmit: (values, { resetForm }) => {
-      _createUserMutation({
-        variables: {
-          createUserInput: values
-        }
-      }).then(() => {
+      handleRegister(values, () => {
         resetForm()
         Router.push(LOGIN_PAGE)
       })

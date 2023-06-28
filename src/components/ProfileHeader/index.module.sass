@@ -20,7 +20,7 @@
     cursor: pointer
     border-radius: 100px
 
-.profileHeader__avatarInputWrapper
+.profileHeader__avatarInput
     width: 100%
     height: 100%
     opacity: 0
@@ -29,7 +29,7 @@
     left: 0
     z-index: 1
 
-.profileHeader__avatarInput
+.profileHeader__avatarInputWrapper, .profileHeader__avatarInputForm
     width: 100%
     height: 100%
 
@@ -43,10 +43,16 @@
         
 .profileHeader__actions
     margin-bottom: 10px
-    display: grid
+    display: none
     grid-template-columns: 1fr 1fr
     grid-gap: 10px
 
+.profileHeader__actions_show
+    display: grid
+
 .profile_showMore
+    display: none
     cursor: pointer
 
+.profile_showMore_show
+    display: block

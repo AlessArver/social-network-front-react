@@ -1,29 +1,32 @@
 import { useEffect } from 'react'
-import Router from 'next/router'
-import { useLazyQuery, useReactiveVar } from '@apollo/client'
+import { useRouter } from 'next/router'
 
 import { isAuthVar, meLoadingVar, meVar } from 'apollo/variables/user'
-import { ME } from 'apollo/queries/user'
 import { socket } from 'utils/socket/socket'
+import { useGetMe } from 'apollo/queries/user/hooks/useGetMe'
+import { LOGIN_PAGE, PROFILE_PAGE, REGISTER_PAGE } from 'constants/routes'
 
 export const AuthGuard = ({ children, requiredAuth }: { children: JSX.Element; requiredAuth?: boolean }) => {
-  const [_getMe, { data, loading, error }] = useLazyQuery(ME)
-  const isAuth = useReactiveVar(isAuthVar)
+  const { handleGetMe, loading, error } = useGetMe()
+  const router = useRouter()
 
   useEffect(() => {
-    _getMe()
-
-    if (data?.me) {
-      meVar(data?.me)
+    handleGetMe(res => {
+      meVar(res)
       isAuthVar(true)
       meLoadingVar(loading)
-      socket.emit(`userOnline`, { id: data?.me?.id, socket_id: socket.id })
-    }
-  }, [data, isAuth])
+      socket.emit(`userOnline`, { id: res.id, socket_id: socket.id })
+      if (router.pathname === LOGIN_PAGE || router.pathname === REGISTER_PAGE) {
+        router.push(PROFILE_PAGE)
+      }
+    })
+  }, [])
 
-  if (requiredAuth && error) {
-    Router.push('/login')
-  }
+  useEffect(() => {
+    if (error && requiredAuth) {
+      router.push(LOGIN_PAGE)
+    }
+  }, [error])
 
   if (loading) {
     return <>Loading...</>

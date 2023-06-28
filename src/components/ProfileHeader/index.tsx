@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 
 import { themeVar } from 'apollo/variables/app'
 import { IUpdateUserRequest } from 'apollo/mutations/user/types'
-import { IUser } from 'apollo/queries/user'
+import { IUser } from 'apollo/queries/user/user'
 
 import { outlineFont } from 'assets/theme/styles'
 
@@ -15,13 +15,15 @@ import { Input } from 'components/ui/Input'
 import { Typography, FontTypeEnum, FontWeightEnum } from 'components/ui/Typography'
 
 import s from './index.module.sass'
+import clsx from 'clsx'
 
 export interface IProfileHeader {
   user: IUser | null
   me: IUser | null
+  updateUserLoading: boolean
   updateUser: (data: Omit<Partial<IUpdateUserRequest>, 'id'>) => void
 }
-export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUser }) => {
+export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading, updateUser }) => {
   const theme = useReactiveVar(themeVar)
 
   const handleChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,14 +39,15 @@ export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUser }) => {
           <Input
             onChange={handleChangeAvatar}
             type='file'
-            className={s.profileHeader__avatarInputWrapper}
-            inputClassName={s.profileHeader__avatarInput}
+            className={s.profileHeader__avatarInput}
+            inputWrapperClassName={s.profileHeader__avatarInputWrapper}
+            inputClassName={s.profileHeader__avatarInputForm}
           />
           <Avatar
             size={150}
             containerClassName={s.profileHeader__avatar}
-            src={user?.avatar}
-            isOnline={user?.is_online}
+            src={user?.avatar || me?.avatar}
+            isOnline={user?.is_online || me?.is_online}
             showOnline
           />
         </div>
@@ -56,34 +59,24 @@ export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUser }) => {
               ${outlineFont(theme.card.background, theme.fontColor)}
             `}
           >
-            {user?.first_name} {user?.last_name}
+            {user?.first_name || me?.first_name} {user?.last_name || me?.last_name}
           </Typography>
-          {/* TODO: need create new component for actions */}
-          {me ? (
-            me?.id !== user?.id && (
-              <div className={s.profileHeader__actions}>
-                <Button>Message</Button>
-                <div />
-                <Button size={ButtonSize.sm}>Remove</Button>
-                <Button size={ButtonSize.sm}>Block</Button>
-              </div>
-            )
-          ) : (
-            <div className={s.profileHeader__actions}>
-              <Button>Message</Button>
-              <div />
-              <Button size={ButtonSize.sm}>Remove</Button>
-              <Button size={ButtonSize.sm}>Block</Button>
-            </div>
-          )}
-          {window.innerWidth < 700 && (
-            <Typography fontType={FontTypeEnum.xs} fontWeight={FontWeightEnum.regular} className={s.profile_showMore}>
-              show more
-            </Typography>
-          )}
+          <div className={clsx(s.profileHeader__actions, { [s.profileHeader__actions_show]: user && me })}>
+            <Button>Message</Button>
+            <div />
+            <Button size={ButtonSize.sm}>Remove</Button>
+            <Button size={ButtonSize.sm}>Block</Button>
+          </div>
+          <Typography
+            fontType={FontTypeEnum.xs}
+            fontWeight={FontWeightEnum.regular}
+            className={clsx(s.profile_showMore, { [s.profile_showMore_show]: window.innerWidth < 700 })}
+          >
+            show more
+          </Typography>
         </div>
       </div>
-      {!!user && !!me && me.id !== user.id && <AddFriend me={me} user={user} />}
+      {!!user && !!me && <AddFriend me={me} user={user} />}
     </div>
   )
 }

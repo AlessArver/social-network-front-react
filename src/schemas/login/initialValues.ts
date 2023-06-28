@@ -1,8 +1,6 @@
-import { loginForm } from './form'
-
-const { email, password } = loginForm
+import { LoginFields } from './types'
 
 export const loginInitialValues = {
-  [email.name]: '',
-  [password.name]: ''
+  [LoginFields.email]: '',
+  [LoginFields.password]: ''
 }

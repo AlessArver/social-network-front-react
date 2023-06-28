@@ -44,8 +44,8 @@ export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading,
           <Avatar
             size={150}
             containerClassName={s.profileHeader__avatar}
-            src={user?.avatar}
-            isOnline={user?.is_online}
+            src={user?.avatar || me?.avatar}
+            isOnline={user?.is_online || me?.is_online}
             showOnline
           />
         </div>
@@ -57,7 +57,7 @@ export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading,
               ${outlineFont(theme.card.background, theme.fontColor)}
             `}
           >
-            {user?.first_name} {user?.last_name}
+            {user?.first_name || me?.first_name} {user?.last_name || me?.last_name}
           </Typography>
           {/* TODO: need create new component for actions */}
           {me ? (
@@ -84,7 +84,7 @@ export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading,
           )}
         </div>
       </div>
-      {!!user && !!me && me.id !== user.id && <AddFriend me={me} user={user} />}
+      {!!user && !!me && <AddFriend me={me} user={user} />}
     </div>
   )
 }

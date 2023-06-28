@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import { useMutation, useReactiveVar } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import Router from 'next/router'
 import Cookie from 'js-cookie'
 
@@ -9,6 +8,8 @@ import { LOGIN } from 'apollo/mutations/user/user'
 
 import { cookieFields } from 'constants/index'
 import { PROFILE_PAGE } from 'constants/routes'
+
+import { useLogin } from 'apollo/mutations/user/hooks/useLogin'
 
 import { AuthLayout, AuthLayoutType } from 'layouts/AuthLayout'
 
@@ -21,32 +22,22 @@ import { loginInitialValues } from 'schemas/login/initialValues'
 import { loginValidationSchema } from 'schemas/login/validationSchema'
 
 export default function Login() {
+  const { handleLogin } = useLogin()
   const [_loginUserMutation, { loading, data: loginData }] = useMutation(LOGIN)
-  const isAuth = useReactiveVar(isAuthVar)
   const { email, password } = loginForm
-
-  useEffect(() => {
-    if (isAuth) {
-      Router.push(PROFILE_PAGE)
-    }
-  }, [isAuth])
-
-  useEffect(() => {
-    if (loginData?.login) {
-      Cookie.set(cookieFields.authToken, loginData.login)
-      isAuthVar(true)
-    }
-  }, [loginData])
 
   const formik = useFormik({
     initialValues: loginInitialValues,
     validationSchema: loginValidationSchema,
     onSubmit: (values, { resetForm }) => {
-      _loginUserMutation({
-        variables: {
-          loginUserInput: values
+      handleLogin({ ...values }, res => {
+        if (res) {
+          Cookie.set(cookieFields.authToken, loginData.login)
+          isAuthVar(true)
+          Router.push(PROFILE_PAGE)
         }
-      }).then(() => resetForm())
+        resetForm()
+      })
     }
   })
 

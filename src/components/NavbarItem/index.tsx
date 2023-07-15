@@ -10,7 +10,7 @@ export interface INavbarItem {
   onClick?: () => void
   className?: string
 }
-export const NavbarItem: FC<INavbarItem> = ({ icon, href, onClick, className }) => {
+export const NavbarItem = ({ icon, href, onClick, className }: INavbarItem) => {
   return href ? (
     <Link href={href} className={clsx(s.navbarItem, className)}>
       {icon}

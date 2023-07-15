@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react'
+import { ChangeEvent } from 'react'
 import { useReactiveVar } from '@apollo/client'
 import { css } from '@emotion/react'
 
@@ -23,7 +23,7 @@ export interface IProfileHeader {
   updateUserLoading: boolean
   updateUser: (data: Omit<Partial<IUpdateUserRequest>, 'id'>) => void
 }
-export const ProfileHeader: FC<IProfileHeader> = ({ user, me, updateUserLoading, updateUser }) => {
+export const ProfileHeader = ({ user, me, updateUserLoading, updateUser }: IProfileHeader) => {
   const theme = useReactiveVar(themeVar)
 
   const handleChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {

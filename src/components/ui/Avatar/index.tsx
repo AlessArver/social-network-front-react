@@ -12,7 +12,7 @@ export interface IAvatar {
   className?: string
   containerClassName?: string
 }
-export const Avatar: FC<IAvatar> = ({ src, alt, size, isOnline, showOnline, className, containerClassName }) => {
+export const Avatar = ({ src, alt, size, isOnline, showOnline, className, containerClassName }: IAvatar) => {
   return (
     <div
       className={clsx(containerClassName, s.avatar, { [s.avatar_online]: isOnline })}

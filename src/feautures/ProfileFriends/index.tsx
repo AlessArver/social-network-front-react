@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FC, memo, useEffect } from 'react'
+import { memo, useEffect } from 'react'
 import clsx from 'clsx'
 import { useLazyQuery } from '@apollo/client'
 
@@ -16,7 +16,7 @@ export interface IProfileFriends {
   id: string
   className?: string
 }
-export const ProfileFriends: FC<IProfileFriends> = memo(function ProfileFriends({ id, className }) {
+export const ProfileFriends = memo(function ProfileFriends({ id, className }: IProfileFriends) {
   const [getFriends] = useLazyQuery(FRIENDS)
   const [getUsersByIds, { data }] = useLazyQuery<{ usersByIds: IUser[] }>(USERS_BY_IDS)
 

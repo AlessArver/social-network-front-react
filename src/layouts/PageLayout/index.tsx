@@ -1,18 +1,18 @@
-import { useEffect, FC, ReactNode, useState } from 'react'
+import { useEffect, ReactNode, useState } from 'react'
 import { useReactiveVar } from '@apollo/client'
+import { css } from '@emotion/react'
 
-import { currThemeVar, isCustomThemeVar, themeVar } from 'apollo/variables/app'
+import { isCustomThemeVar, themeVar } from 'apollo/variables/app'
 import { localstorageFields } from 'constants/index'
 
 import { theme as themeData } from 'assets/theme'
 
 import s from './index.module.sass'
-import { css } from '@emotion/react'
 
 export interface IPageLayout {
   children: ReactNode
 }
-export const PageLayout: FC<IPageLayout> = ({ children }) => {
+export const PageLayout = ({ children }: IPageLayout) => {
   const theme = useReactiveVar(themeVar)
   const isCustomTheme = useReactiveVar(isCustomThemeVar)
   const [themeLoading, setThemeeLoading] = useState(true)

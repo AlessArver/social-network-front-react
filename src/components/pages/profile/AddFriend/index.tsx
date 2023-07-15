@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import { useLazyQuery, useMutation } from '@apollo/client'
 
@@ -16,7 +16,7 @@ export interface IAddFriend {
   me: IUser
   user: IUser
 }
-export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
+export const AddFriend = ({ me, user }: IAddFriend) => {
   const [getMyFriendData] = useLazyQuery(FRIEND)
   const [createFriendMutation] = useMutation(CREATE_FRIEND)
   const [updateFriendMutation] = useMutation(UPDATE_FRIEND)

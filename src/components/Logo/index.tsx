@@ -15,7 +15,7 @@ import s from './index.module.sass'
 export interface ILogo {
   className?: string
 }
-export const Logo: FC<ILogo> = ({ className }) => {
+export const Logo = ({ className }: ILogo) => {
   const theme = useReactiveVar(themeVar)
 
   return (

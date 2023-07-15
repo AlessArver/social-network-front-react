@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import Tippy from '@tippyjs/react/headless'
 
 import s from './index.module.sass'
@@ -15,7 +15,7 @@ export interface IDropdown {
   onOpen: () => void
   onClose: () => void
 }
-export const Dropdown: FC<IDropdown> = ({ children, dropdownChildren, visible, childrenItems, onOpen, onClose }) => {
+export const Dropdown = ({ children, dropdownChildren, visible, childrenItems, onOpen, onClose }: IDropdown) => {
   return (
     <div onMouseEnter={onOpen} onMouseLeave={onClose}>
       <Tippy

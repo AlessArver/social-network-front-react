@@ -1,14 +1,17 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLazyQuery, useMutation } from '@apollo/client'
+
+import { IPost, POSTS } from 'apollo/queries/post'
+import { REMOVE_POST } from 'apollo/mutations/post'
+import { IUser } from 'apollo/queries/user/user'
+
+import { POST_EVENTS } from 'utils/socket/events'
+import { getDateTime } from 'utils/getDateTime'
+import { socket } from 'utils/socket/socket'
+
+import { Post } from 'components/Post'
 
 import s from './index.module.sass'
-import { IPost, POSTS } from 'apollo/queries/post'
-import { Post } from 'components/Post'
-import { POST_EVENTS } from 'utils/socket/events'
-import { socket } from 'utils/socket/socket'
-import { useLazyQuery, useMutation } from '@apollo/client'
-import { REMOVE_POST } from 'apollo/mutations/post'
-import { getDateTime } from 'utils/getDateTime'
-import { IUser } from 'apollo/queries/user/user'
 
 export enum CreatePostValues {
   text = 'text'
@@ -19,7 +22,7 @@ export interface IPosts {
   user: IUser | null
   me: IUser | null
 }
-export const Posts: FC<IPosts> = ({ id, me, user }) => {
+export const Posts = ({ id, me, user }: IPosts) => {
   const [posts, setPosts] = useState<IPost[]>([])
   const [_removePostMutation] = useMutation(REMOVE_POST)
   const [getPosts, { data: postsData, loading: postsLoading }] = useLazyQuery(POSTS)

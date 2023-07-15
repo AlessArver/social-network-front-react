@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import Router from 'next/router'
 import { css } from '@emotion/react'
 import clsx from 'clsx'
@@ -32,7 +32,7 @@ const ITEMS = [
 export interface INavbar {
   className?: string
 }
-export const Navbar: FC<INavbar> = ({ className }) => {
+export const Navbar = memo(({ className }: INavbar) => {
   const theme = useReactiveVar(themeVar)
   const isAuth = useReactiveVar(isAuthVar)
 
@@ -63,4 +63,4 @@ export const Navbar: FC<INavbar> = ({ className }) => {
       </div>
     </div>
   )
-}
+})

@@ -25,13 +25,13 @@ interface ITypography {
   className?: string
   css?: Interpolation<Theme>
 }
-export const Typography: FC<ITypography> = ({
+export const Typography = ({
   children,
   fontType = FontTypeEnum.body,
   fontWeight = FontWeightEnum.regular,
   className,
   css
-}) => {
+}: ITypography) => {
   const [tagName, setTagName] = useState('div')
 
   useEffect(() => {

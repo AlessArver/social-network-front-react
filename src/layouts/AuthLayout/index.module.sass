@@ -1,5 +1,9 @@
 @import 'styles/variables'
 
+.mainLayout__navbarWrapper 
+    display: flex
+    justify-content: center
+
 .auth__cardWrapper 
     height: calc(100vh - #{$navbar-height})
     display: flex
@@ -9,6 +13,9 @@
 
     @media screen and (max-width: 768px)
         padding: 40px 20px
+
+.auth__card
+    min-width: 420px
 
 .authLayout__form
     display: flex
@@ -33,4 +40,14 @@
         margin-bottom: 0
 
 .authLayout__link
-    margin-top: 10px
+    margin-bottom: 5px
+
+    &:last-child
+        margin-bottom: 0
+
+.authLayout__footer
+    margin-top: 20px
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center

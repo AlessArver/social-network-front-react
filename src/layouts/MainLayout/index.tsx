@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import clsx from 'clsx'
 
 import { Navbar } from 'components/Navbar'
@@ -11,7 +11,7 @@ export interface IMainLayout {
   asideChildren?: ReactNode
   childrenClassName?: string
 }
-export const MainLayout: FC<IMainLayout> = ({ children, asideChildren, childrenClassName }) => {
+export const MainLayout = ({ children, asideChildren, childrenClassName }: IMainLayout) => {
   return (
     <div className={s.mainLayout}>
       <div>

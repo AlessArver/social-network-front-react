@@ -1,7 +1,6 @@
 <h3>What I'm doing:</h3>
 <ul>
-  <li>Refactor code</li>
-  <li>Reset/recover password</li>
+  <li>Friends page</li>
 </ul>
 
 <h3>Realized:</h3>
@@ -11,13 +10,13 @@
   <li>Add/Remove posts</li>
   <li>Add realtime with socket.io</li>
   <li>Add theme</li>
+  <li>Reset password</li>
 </ul>
 
 <h3>What I'll do later:</h3>
 <ul>
-  <li>Video calls with webrtc</li>
+  <li>Video calls</li>
   <li>Chat</li>
-  <li>Ad other</li>
 </ul>
 
 <h3>How to setup?</h3>

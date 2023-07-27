@@ -25,3 +25,17 @@ export const UPDATE_USER = gql`
     }
   }
 `
+
+export const GET_NEW_TOKENS = gql`
+  mutation getNewTokens($id: String!) {
+    getNewTokens(id: $id) {
+      accessToken
+    }
+  }
+`
+
+export const RECOVER_PASSWORD = gql`
+  mutation recoverPassword($recoverPasswordInput: RecoverPasswordInput!) {
+    recoverPassword(recoverPasswordInput: $recoverPasswordInput)
+  }
+`

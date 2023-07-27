@@ -5,8 +5,9 @@ import { css } from '@emotion/react'
 import { isCustomThemeVar, themeVar } from 'apollo/variables/app'
 import { localstorageFields } from 'constants/index'
 
-import { theme as themeData } from 'assets/theme'
+import { Alerts } from 'components/Alerts'
 
+import { theme as themeData } from 'assets/theme'
 import s from './index.module.sass'
 
 export interface IPageLayout {
@@ -51,6 +52,7 @@ export const PageLayout = ({ children }: IPageLayout) => {
         color: ${theme.fontColor};
       `}
     >
+      <Alerts />
       {!themeLoading && children}
     </div>
   )

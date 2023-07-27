@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 
-import { CREATE_USER } from '../user'
-import { IUser } from 'apollo/queries/user/user'
+import { CREATE_USER } from '..'
+import { IUser } from 'apollo/queries/user'
 
 export const useRegister = () => {
   const [_handleRegister, { loading, error }] = useMutation(CREATE_USER)

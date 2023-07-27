@@ -8,6 +8,7 @@ export interface IUser {
   email: string
   password: string
   is_online?: boolean
+  reset_password_token?: string
 }
 
 export interface IUserByIdsQueryItem {
@@ -69,5 +70,10 @@ export const ME = gql`
       email
       is_online
     }
+  }
+`
+export const RECOVER_PASSWORD_ACCESS = gql`
+  query recoverPasswordAccess($token: String!) {
+    recoverPasswordAccess(token: $token)
   }
 `

@@ -1,10 +1,13 @@
 import { NextComponentType, NextPageContext } from 'next'
 import { ApolloProvider } from '@apollo/client'
+
 import { client } from 'apollo'
 
 import { AuthGuard } from 'guards/AuthGuard'
 
 import { PageLayout } from 'layouts/PageLayout'
+
+import { ErrorBoundary } from 'components/ErrorBoundary'
 
 import 'styles/index.sass'
 
@@ -15,15 +18,15 @@ type NewComponentType = ComponentPropsType & NextComponentType<ComponentPropsTyp
 
 function App({ Component }: { Component: NewComponentType }) {
   return (
-    <ApolloProvider client={client}>
-      <AuthGuard requiredAuth={Component?.requireAuth}>
-        <>
+    <ErrorBoundary>
+      <ApolloProvider client={client}>
+        <AuthGuard requiredAuth={Component?.requireAuth}>
           <PageLayout>
             <Component />
           </PageLayout>
-        </>
-      </AuthGuard>
-    </ApolloProvider>
+        </AuthGuard>
+      </ApolloProvider>
+    </ErrorBoundary>
   )
 }
 export default App

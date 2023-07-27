@@ -3,7 +3,7 @@ import { useLazyQuery, useMutation } from '@apollo/client'
 
 import { IPost, POSTS } from 'apollo/queries/post'
 import { REMOVE_POST } from 'apollo/mutations/post'
-import { IUser } from 'apollo/queries/user/user'
+import { IUser } from 'apollo/queries/user'
 
 import { POST_EVENTS } from 'utils/socket/events'
 import { getDateTime } from 'utils/getDateTime'

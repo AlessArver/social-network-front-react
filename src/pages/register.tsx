@@ -2,7 +2,7 @@ import Router from 'next/router'
 import { useFormik } from 'formik'
 import { useMutation } from '@apollo/client'
 
-import { CREATE_USER } from 'apollo/mutations/user/user'
+import { CREATE_USER } from 'apollo/mutations/user'
 import { useRegister } from 'apollo/mutations/user/hooks/useRegister'
 
 import { LOGIN_PAGE, RESET_PASSWORD_PAGE } from 'constants/routes'

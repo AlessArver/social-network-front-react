@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 
 import { themeVar } from 'apollo/variables/app'
 import { IUpdateUserRequest } from 'apollo/mutations/user/types'
-import { IUser } from 'apollo/queries/user/user'
+import { IUser } from 'apollo/queries/user'
 
 import { outlineFont } from 'assets/theme/styles'
 

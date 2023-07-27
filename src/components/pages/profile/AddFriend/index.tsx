@@ -3,7 +3,7 @@ import { MdAdd } from 'react-icons/md'
 import { useLazyQuery, useMutation } from '@apollo/client'
 
 import { FRIEND, FriendStatus, IFriend } from 'apollo/queries/friend'
-import { IUser } from 'apollo/queries/user/user'
+import { IUser } from 'apollo/queries/user'
 
 import { Button, ButtonSize, ButtonType } from 'components/ui/Button'
 

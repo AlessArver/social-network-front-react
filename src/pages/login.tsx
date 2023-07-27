@@ -19,9 +19,10 @@ import s from 'layouts/AuthLayout/index.module.sass'
 import { loginForm } from 'schemas/login/form'
 import { loginInitialValues } from 'schemas/login/initialValues'
 import { loginValidationSchema } from 'schemas/login/validationSchema'
+import { ApolloError } from '@apollo/client'
 
 export default function Login() {
-  const { handleLogin, loading } = useLogin()
+  const { handleLogin, loading, error } = useLogin()
   const { email, password } = loginForm
 
   const formik = useFormik({
@@ -38,6 +39,14 @@ export default function Login() {
       })
     }
   })
+
+  // if (error) {
+  //   return (
+  //     <>
+  //       <ApolloError error={error} />
+  //     </>
+  //   )
+  // }
 
   return (
     <AuthLayout

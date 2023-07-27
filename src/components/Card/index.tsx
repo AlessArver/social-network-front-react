@@ -15,7 +15,7 @@ export interface ICard {
   className?: string
   cardClassName?: string
 }
-export const Card: FC<ICard> = ({ children, className, cardClassName }) => {
+export const Card = ({ children, className, cardClassName }: ICard) => {
   const theme = useReactiveVar(themeVar)
 
   return (

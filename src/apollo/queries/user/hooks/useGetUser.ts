@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 
-import { IUser, USER } from '../user'
+import { IUser, USER } from '..'
 
 export const useGetUser = () => {
   const [getUser, { loading, error }] = useLazyQuery<{ user: IUser }>(USER)

@@ -17,7 +17,7 @@ export interface IPostProps extends IPost {
   fullName: string
   handleRemovePost: (postId: string) => void
 }
-export const Post: FC<IPostProps> = ({ meId, id, userId, avatar, fullName, text, handleRemovePost }) => {
+export const Post = ({ meId, id, userId, avatar, fullName, text, handleRemovePost }: IPostProps) => {
   const showOptions = useToggle(false)
 
   const onRemove = () => {

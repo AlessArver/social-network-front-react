@@ -9,7 +9,7 @@ import { FRIEND_TYPES } from 'constants/friends'
 
 import { REMOVE_FRIEND, UPDATE_FRIEND } from 'apollo/mutations/friend'
 import { FRIEND, FRIENDS, FriendStatus, IFriend } from 'apollo/queries/friend'
-import { IUserByIdsQuery, USERS_BY_IDS } from 'apollo/queries/user/user'
+import { IUserByIdsQuery, USERS_BY_IDS } from 'apollo/queries/user'
 
 import { FriendItem } from 'components/pages/friends/FriendItem'
 import { Navbar } from 'components/Navbar'

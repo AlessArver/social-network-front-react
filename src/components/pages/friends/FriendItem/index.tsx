@@ -1,7 +1,7 @@
-import { IUserByIdsQueryItem } from 'apollo/queries/user/user'
+import { IUserByIdsQueryItem } from 'apollo/queries/user'
 import { Avatar } from 'components/ui/Avatar'
 import { ButtonSize, Button } from 'components/ui/Button'
-import { FC, memo } from 'react'
+import { memo } from 'react'
 
 import s from './index.module.sass'
 
@@ -10,7 +10,7 @@ export interface IFriendItem {
   onBlock: (id: string) => void
 }
 
-export const FriendItem: FC<IFriendItem & IUserByIdsQueryItem> = memo(function FriendItem({
+export const FriendItem = memo(function FriendItem({
   id,
   first_name,
   last_name,
@@ -18,7 +18,7 @@ export const FriendItem: FC<IFriendItem & IUserByIdsQueryItem> = memo(function F
   is_online,
   onRemove,
   onBlock
-}) {
+}: IFriendItem & IUserByIdsQueryItem) {
   const handleRemove = () => {
     onRemove(id)
   }

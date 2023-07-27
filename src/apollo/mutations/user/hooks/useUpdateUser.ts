@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import { IUpdateUserRequest } from 'apollo/mutations/user/types'
 
-import { UPDATE_USER } from 'apollo/mutations/user/user'
+import { UPDATE_USER } from 'apollo/mutations/user'
 
 export const useUpdateUser = () => {
   const [updateUserMutation, { data, loading, error }] = useMutation(UPDATE_USER)

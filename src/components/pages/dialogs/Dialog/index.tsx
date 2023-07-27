@@ -17,7 +17,7 @@ export interface IDialog {
   text: string
   className?: string
 }
-export const Dialog: FC<IDialog> = ({ id, fullName, text, className }) => {
+export const Dialog = ({ id, fullName, text, className }: IDialog) => {
   const showOptions = useToggle()
 
   return (

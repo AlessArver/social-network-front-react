@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import { useLazyQuery, useMutation } from '@apollo/client'
 
 import { FRIEND, FriendStatus, IFriend } from 'apollo/queries/friend'
-import { IUser } from 'apollo/queries/user/user'
+import { IUser } from 'apollo/queries/user'
 
 import { Button, ButtonSize, ButtonType } from 'components/ui/Button'
 
@@ -16,7 +16,7 @@ export interface IAddFriend {
   me: IUser
   user: IUser
 }
-export const AddFriend: FC<IAddFriend> = ({ me, user }) => {
+export const AddFriend = ({ me, user }: IAddFriend) => {
   const [getMyFriendData] = useLazyQuery(FRIEND)
   const [createFriendMutation] = useMutation(CREATE_FRIEND)
   const [updateFriendMutation] = useMutation(UPDATE_FRIEND)

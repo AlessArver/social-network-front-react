@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import clsx from 'clsx'
 import { css } from '@emotion/react'
 import { themeVar } from 'apollo/variables/app'
@@ -24,7 +24,7 @@ export interface IButton {
   type?: ButtonType
   className?: string
 }
-export const Button: FC<IButton> = ({
+export const Button = ({
   children,
   fullWidth,
   size = ButtonSize.md,
@@ -33,7 +33,7 @@ export const Button: FC<IButton> = ({
   disabled,
   type,
   className
-}) => {
+}: IButton) => {
   const theme = useReactiveVar(themeVar)
 
   return (

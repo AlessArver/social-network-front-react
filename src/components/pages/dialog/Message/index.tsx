@@ -15,7 +15,7 @@ export interface IMessageItem {
 export interface IMessage extends IMessageItem {
   isMe?: boolean
 }
-export const Message: FC<IMessage> = ({ isMe, text }) => {
+export const Message = ({ isMe, text }: IMessage) => {
   const showOptions = useToggle()
 
   return (

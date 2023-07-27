@@ -1,6 +1,6 @@
 import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/router'
-import { FC, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import clsx from 'clsx'
 
 export interface INavlink extends LinkProps {
@@ -8,7 +8,7 @@ export interface INavlink extends LinkProps {
   className?: string
   activeClassName?: string
 }
-export const Navlink: FC<INavlink> = ({ children, href, className, activeClassName = '' }) => {
+export const Navlink = ({ children, href, className, activeClassName = '' }: INavlink) => {
   const { pathname } = useRouter()
   const isActive = pathname.includes(`${href}`)
 

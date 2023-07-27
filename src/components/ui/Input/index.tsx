@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, HTMLInputTypeAttribute, ReactNode } from 'react'
+import { ChangeEventHandler, HTMLInputTypeAttribute, ReactNode } from 'react'
 import { useReactiveVar } from '@apollo/client'
 import clsx from 'clsx'
 import { css } from '@emotion/react'
@@ -23,7 +23,7 @@ export interface IInput {
   inputWrapperClassName?: string
   inputClassName?: string
 }
-export const Input: FC<IInput> = ({
+export const Input = ({
   name,
   value,
   placeholder,
@@ -38,7 +38,7 @@ export const Input: FC<IInput> = ({
   className,
   inputWrapperClassName,
   inputClassName
-}) => {
+}: IInput) => {
   const theme = useReactiveVar(themeVar)
 
   return (

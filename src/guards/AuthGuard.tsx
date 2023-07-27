@@ -20,13 +20,14 @@ export const AuthGuard = ({ children, requiredAuth }: { children: JSX.Element; r
         router.push(PROFILE_PAGE)
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (error && requiredAuth) {
       router.push(LOGIN_PAGE)
     }
-  }, [error])
+  }, [error, requiredAuth, router])
 
   if (loading) {
     return <>Loading...</>

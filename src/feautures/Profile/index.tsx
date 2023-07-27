@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 import { meVar } from 'apollo/variables/user'
 
-import { IUser } from 'apollo/queries/user/user'
+import { IUser } from 'apollo/queries/user'
 import { IUpdateUserRequest } from 'apollo/mutations/user/types'
 
 import { socket } from 'utils/socket/socket'
@@ -43,10 +43,10 @@ export default function Profile() {
   }, [id, me])
 
   useEffect(() => {
-    if (user?.id === me?.id) {
-    } else if (user?.id !== me?.id) {
+    if (user?.id !== me?.id && id) {
       handleGetUser(`${id}`, res => setUser(res))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, me])
 
   const updateUser = (data: Omit<Partial<IUpdateUserRequest>, 'id'>) => {

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { useRouter } from 'next/router'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useMutation } from '@apollo/client'
@@ -10,7 +10,6 @@ import { REQUIRED_FIELD_VALIDATION } from 'utils/formValidation/validatinoFields
 import { Input } from 'components/ui/Input'
 
 import s from './index.module.sass'
-import { useRouter } from 'next/router'
 
 export enum CreatePostValues {
   text = 'text'
@@ -23,7 +22,7 @@ const validationSchema = Yup.object().shape({
 })
 
 export interface ICreatePost {}
-export const CreatePost: FC<ICreatePost> = ({}) => {
+export const CreatePost = ({}: ICreatePost) => {
   const router = useRouter()
   const { id } = router.query
   const [_createPostMutation] = useMutation(CREATE_POST)
